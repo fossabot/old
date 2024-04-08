@@ -1,0 +1,4 @@
+/**
+   * @author  Mudit Ameta
+   * @license https://github.com/zeusdeux/isInViewport/blob/master/license.md MIT
+   */

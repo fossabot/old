@@ -1,0 +1,19 @@
+:root{
+    --colorPrimary: #0000FF;
+    /* Color Light */
+    --colorPrimaryLight: #0000FF;
+    --colorLightBubbleRight: #191970;
+
+    --colorLightLinkBubbleLeft: #2196F3;
+    --colorLightLinkBubbleRight: #2196F3;
+    --colorLightMentionBubbleLeft: #2196F3;
+    --colorLightMentionBubbleRight: #2196F3;
+    /* Color Dark */
+    --colorPrimaryDark: #375a7f;
+    --colorDarkBubbleRight: #2B2B2B;
+
+    --colorDarkLinkBubbleLeft: #2196F3;
+    --colorDarkLinkBubbleRight: #2196F3;
+    --colorDarkMentionBubbleLeft: #2196F3;
+    --colorDarkMentionBubbleRight: #2196F3;
+  }

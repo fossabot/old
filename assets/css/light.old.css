@@ -1,0 +1,216 @@
+.modal-content{
+  background-color:  rgba(255,255,255,0.9);
+}
+.cst-top-container {
+  background-color: rgba(255,255,255,0.5);
+}
+
+.cst-bottom-container {
+  background-color: rgba(255,255,255,1);
+}
+.list-group-item{
+  background-color:rgba(255,255,255,.05);
+}
+.tab-content{
+  background-color:rgba(255,255,255,0.5);
+}
+
+.title-bar{
+  background-color: #eee;
+  color: #444
+}
+
+.form-signin .form-control{
+  color: #FFF
+}
+.form-signin .form-control::placeholder{
+  color: #f1f1f1
+}
+
+/* .add-contact{
+  background-color: #dddddd;
+} */
+
+.sidebar-footer-icon{
+  background-color: rgba(255,255,255,0.8);
+}
+
+#sidebar {
+  /* background: #FFFFFF; */
+  color: black;
+}
+
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: rgba(240, 240, 240, 0.5) ;
+  border-radius : 2px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.4); 
+  border-radius : 2px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.5); 
+}
+/* End Scrollbar */
+
+.message{
+  background-color: #fff;
+}
+.contact-item:hover,
+.chat-entry-item:hover,
+.group-item:hover{
+  background-color: #c4d2e2;
+}
+.chat-entry-item.active{
+  background-color: rgba(220,220,220,0.5);
+  color: inherit !important;
+}
+
+.btn-primary{
+  background-color: dimgray !important;
+}
+
+span.contact-last-chat,
+span.last-chat-timestamp{
+  /* color: #666666; */
+  color: lightyellow;
+}
+
+span.contact-number{
+  color: #666666;
+}
+
+.btn:hover{
+  background-color: blue !important;
+  color: white !important;
+}
+
+.profile-dialog-modal .modal-content{
+  background: rgba(255,255,255,0.9)
+}
+
+.profile-detail-header{
+  background: rgba(255,255,255,0.5)
+}
+
+.profile-dialog-modal .btn-transparent{
+  color: #444;
+  font-size: 15px;
+}
+
+/* .message.reply{
+  background: rgba(40, 40, 40, 0.2)
+} */
+
+
+.file .file-icon span{
+  border-color: #bbb;
+  color: #FFF;
+}
+.my .file .file-icon span{
+  background: none;
+}
+
+[data-label]:before{
+  background-color: rgba(0,0,0,.3);
+}
+
+.cancel-download,
+.cancel-upload{
+  color: #444;
+}
+
+.my .cancel-upload,
+.my .cancel-download{
+  color: #FFF;
+}
+
+/* .caption-item-icon{
+  background: #FFF
+} */
+
+#label-pop{
+  background: #FFF;
+}
+
+#label-pop:before{
+  border-color: transparent transparent #FFF transparent;
+}
+.tribute-container ul{
+  background: #FFFFFF !important;
+}
+
+.stickerpipe-popover{
+  border: 1px solid #FFFFFF !important;
+}
+.stickerpipe{
+  background: #FFFFFF !important;
+}
+
+.stickerpipe > .sp-tabs{
+  background-color: #FFFFFF !important;
+  border-bottom: 1px solid #EEEEEE !important;
+}
+
+span.sp-tab-history{
+  border-right: 1px solid #FFFFFF !important;
+}
+span.sp-tab-next-packs{
+  border-left: 1px solid #FFFFFF !important;
+}
+span.sp-tab-prev-packs{
+  border-right: 1px solid #FFFFFF !important;
+}
+.sp-modal-header{
+  background: #FFFFFF !important;
+}
+
+.link-preview-media{
+  background-color: #FFFFFF;
+}
+
+.search-view-header-input{
+  color: #000000;
+}
+
+.search-message-result{
+  background-color: rgba(255,255,255,0.9);
+}
+
+.pin-message-result{
+  background: white;
+}
+
+.pinner-icon {
+  filter: invert(0.7);
+}
+
+.pin-message-title{
+  color: #000000;
+}
+
+.active-chat-name{
+  color: black;
+}
+
+.search-all-message-box{
+  background-color:rgba(255,255,255,0.3);
+}
+
+.search-all-message-input{
+  color: black;
+}
+
+.general-search-box{
+  background-color: rgba(255,255,255,0.3);
+}
+
+.general-search-input{
+  color: black;
+}

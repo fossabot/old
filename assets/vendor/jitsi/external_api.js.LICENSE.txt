@@ -1,0 +1,1 @@
+/*! For license information please see external_api.min.js.LICENSE.txt */

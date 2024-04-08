@@ -1,0 +1,3115 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href="./assets/vendor/bootstrap/css/bootstrap.min.css">
+    <!-- Our Font Awesome -->
+    <link rel="stylesheet" href="./assets/vendor/fa/css/font-awesome.min.css">
+    <link rel="stylesheet" href="./assets/vendor/croppie/croppie.css">
+    <link rel="stylesheet" href="./assets/vendor/stickerpipe/stickerpipe.css">
+    <link rel="stylesheet" href="./assets/css/voice-player.css">
+    <link rel="stylesheet" href="./assets/vendor/videojs/video-js.min.css">
+
+    <!-- Photoswipe -->
+    <link rel="stylesheet" href="./assets/vendor/photoswipe/default-skin/default-skin.css">
+    <link rel="stylesheet" href="./assets/vendor/photoswipe/photoswipe.css">
+
+    <link id="app-color" rel="stylesheet" href="./assets/css/color_app1.css">
+    <!-- Our Custom CSS -->
+    <link rel="stylesheet" href="./assets/css/style.css">
+    <!-- Custom style -->
+    <link rel="stylesheet" href="./assets/css/custom.css">
+
+    <link id="theme" rel="stylesheet" href="./assets/css/light.css">
+    <script src="./assets/vendor/emoji/twemoji.min.js"></script>
+
+    <link href="./assets/vendor/air-datepicker/air-datepicker.css" rel="stylesheet" type="text/css">
+    <link href="./assets/vendor/gijgo/gijgo.min.css" rel="stylesheet" type="text/css">
+    <!--Mention at-->
+    <link rel="stylesheet" href="./assets/vendor/tribute/tribute.css">
+    <link rel="stylesheet" href="./assets/vendor/tui-image-editor/css/tui-image-editor.css" />
+    <link type="text/css" href="./assets/vendor/tui-image-editor/css/tui-color-picker.css" rel="stylesheet" />
+    <link type="text/css" href="./assets/css/spin-kit.min.css" rel="stylesheet" />
+</head>
+<style>
+</style>
+
+<body style="-webkit-app-region: drag">
+    <div class="title-bar" id="title-bar">
+        <div id="drag-region">
+            <span id="title-bar_title"></span>
+            <div id="window-controls">
+                <div class="button" id="min-button">
+                    <span>&#xE921;</span>
+                </div>
+                <div class="button" id="max-button">
+                    <span>&#xE922;</span>
+                </div>
+                <div class="button" id="restore-button">
+                    <span>&#xE923;</span>
+                </div>
+                <div class="button" id="close-button">
+                    <span>&#xE8BB;</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Start auth components -->
+    <div id="fullscreen_bg" class="fullscreen_bg jumbotron">
+        <div class="alert alert-danger-alt" id="alert" style="opacity: 0; z-index: -1;">
+            <button type="button" role="error-dialog-close" class="close" tabindex="-1">
+                <span aria-hidden="true">&nbsp;&times;</span>
+            </button>
+            <i class="glyphicon glyphicon-exclamation-sign"></i>&nbsp;&nbsp;
+            <span class="alert-message"> You should read this message.</span>
+        </div>
+        <!-- Start Container -->
+        <div class="container float-mid">
+            <div id='login' style="display: none;">
+                <div class="form-signin" name='cred'>
+                    <div class="auth-input-group">
+                        <h1 class="form-signin-heading" data-lang="label-login">Sign In</h1>
+                        <input type="text" class="form-control input-number" placeholder="Phone" maxlength="12" data-lang="label-phone" required="" autofocus="" id='jid'>
+                        <input type="password" class="form-control" placeholder="Password" data-lang="label-password" required="" id='pass'>
+                    </div>
+                    <div class="auth-button-group">
+                        <button type='button' class="btn btn-lg btn-primary btn-block" data-lang="label-connect" id='connect' enable-enter="true">connect</button>
+                        <button type='button' class="btn btn-lg btn-primary btn-block" data-lang="label-register" id='pre-register'>register</button>
+                        <button type='button' class="btn btn-lg btn-primary btn-block toggle-reset-password" data-lang="label-reset_password">reset password</button>
+                    </div>
+                    <!-- <div class="forgot-password-group">
+      <a href="#" class="toggle-reset-password">Forgot password?</a>
+    </div> -->
+                </div>
+            </div>
+
+            <div id='phoneVerify' style="display:none">
+                <div class="form-signin" name='cred'>
+                    <div class="auth-input-group">
+                        <h1 class="form-signin-heading text-muted" data-lang="label-otp">OTP Verification</h1>
+                        <p class="form-signin-heading" id="label-otp-sms" data-lang="message-otp_confirm">Please enter 6 digits number which was sent to your mobile SMS.</p>
+                        <p class="form-signin-heading" id="label-otp-static" data-lang="message-static_otp_confirm">Please enter your Static OTP.</p>
+                        <input type="text" class="form-control input-number" max="6" required="" autofocus="" id='otp'>
+                    </div>
+                    <div class="auth-button-group">
+                        <button type='button' class="btn btn-lg btn-primary btn-block" id='Confirm' data-lang="label-confirm" enable-enter="true">Confirm</button>
+                        <button type='button' class="btn btn-lg btn-primary btn-block" id='verify_cancel' data-lang="label-cancel">Cancel</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="reset-password" style="display: none">
+                <div class="form-signin" name="reset">
+                    <h1 class="form-signin-heading" data-lang="label-reset_password">Reset Password</h1>
+                    <div class="form-group has-feedback">
+                        <input type="text" class="form-control input-number" placeholder="Phone" maxlength="12" data-lang="label-phone" required autofocus id="reset-jid">
+                        <span class="form-control-feedback">
+                            <i class="fa fa-times"></i>
+                        </span>
+                    </div>
+                    <div class="auth-button-group">
+                        <button type='button' class="btn btn-lg btn-primary btn-block" id='submit-reset-p' data-lang="label-submit" enable-enter="true">Submit</button>
+                        <button type='button' class="btn btn-lg btn-primary btn-block toggle-reset-password" data-lang="label-cancel">Cancel</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="register" style="display:none">
+                <div class="form-signin" name='cred'>
+                    <h1 class="form-signin-heading" data-lang="label-register">Register</h1>
+                    <div class="form-group has-feedback">
+                        <input type="text" class="form-control input-first-name" placeholder="First Name" data-lang="label-first-name" required="" autofocus="" id='reg_first_name' value="" required>
+                        <span class="form-control-feedback">
+                            <i class="fa fa-times"></i>
+                        </span>
+                    </div>
+                    <div class="form-group has-feedback">
+                        <input type="text" class="form-control input-last-name" placeholder="Last Name" data-lang="label-last-name" required="" autofocus="" id='reg_last_name' value="" required>
+                        <span class="form-control-feedback">
+                            <i class="fa fa-times"></i>
+                        </span>
+                    </div>
+                    <div class="form-group has-feedback">
+                        <input type="text" class="form-control input-number" placeholder="Phone" data-lang="label-phone" required="" maxlength="12" autofocus="" id='reg_jid' value="" required>
+                        <span class="form-control-feedback">
+                            <i class="fa fa-times"></i>
+                        </span>
+                    </div>
+                    <div class="form-group has-feedback">
+                        <input type="password" class="form-control" placeholder="Password" data-lang="label-password" required="" id='reg_pass' value="" required>
+                        <span class="form-control-feedback">
+                            <i class="fa fa-times"></i>
+                        </span>
+                    </div>
+                    <div class="form-group has-feedback">
+                        <input type="password" class="form-control" placeholder="Confirm Password" data-lang="label-confirm_password" required="" id='confirm_pass' value="" required>
+                        <span class="form-control-feedback">
+                            <i class="fa fa-times"></i>
+                        </span>
+                    </div>
+                    <div class="auth-button-group">
+                        <button type='button' class="btn btn-lg btn-primary btn-block" id='register' data-lang="label-register" enable-enter="true">Register</button>
+                        <button type='button' class="btn btn-lg btn-primary btn-block" id='reg_cancel' data-lang="label-cancel">Cancel</button>
+                    </div>
+                </div>
+            </div>
+            <div class="language-panel btn-group" role="group">
+                <button type="button" class="btn language-button" data-code="en">
+                    <img src="./assets/vendor/flag-icon/gb.svg" alt="" class="flag-img">
+                </button>
+                <button type="button" class="btn language-button" data-code="kh">
+                    <img src="./assets/vendor/flag-icon/kh.svg" alt="" class="flag-img">
+                </button>
+            </div>
+        </div>
+        <!-- End container -->
+    </div>
+    <!-- End auth components -->
+
+    <!-- Generate key -->
+    <!-- <div class="box_generate_key">
+
+  </div> -->
+    <!-- End generate key screen  -->
+
+    <div class="vs">
+        <span id="c-version"></span>
+        <button type="button" id="btn-check-update-login" class="btn btn-check-update-login" style="display: none;">
+            Check for update
+        </button>
+    </div>
+    <!-- Start Main Screen -->
+    <div id="main" style="display:none">
+        <div class="wrapper">
+            <!-- Sidebar Holder -->
+            <span id="section-sidebar">
+                <nav id="sidebar" class="cst-sidebar">
+                    <!-- <div class="sidebar-header cst-account-search">   
+      <div class="form-group">
+        <label>Main Navigation</label>
+      </div>   
+  </div> -->
+                    <div class="sidebar-middle-container">
+                        <!-- costomzise tab -->
+                        <!-- panel account info -->
+                        <div class="tab-content">
+                            <div class="tab-pane" id="account-info" role="tabpanel" aria-labelledby="account-info-tab">
+                                <div class="sidebar-header">
+                                    <ol class="breadcrumb">
+                                        <li data-lang="label-account_info">Account info</li>
+                                    </ol>
+                                </div>
+                                <div class="mid-sidebar-container">
+                                    <div class="text-center" id="profile">
+                                        <input type="file" accept="image/gif, image/png, image/jpeg, image/bmp, image/webp" id="profile-image-input">
+                                        <div class="image">
+                                            <img src="assets/img/default-user.png">
+                                            <i class="fa fa-upload"></i>
+                                        </div>
+                                        <h4 class="hidden-text-overflow">
+                                            <span class="firstname"></span>
+                                            <span class="lastname"></span>
+                                        </h4>
+                                        <h5>
+                                            <span class="phone"></span><span id="qr-holder"></span>
+                                        </h5>
+                                        <h6>
+                                            <span class="connection-status"></span>
+                                        </h6>
+                                        <br>
+                                        <div class="col-xl-8 d-inline-block">
+                                            <button class="btn-profile-archive" id="btn-archived-chat"><img src="./assets/img/icons/chats_archive.png"></button>
+                                        </div>
+                                        <br>
+                                        <br>
+                                        <div class="col-xl-8 d-inline-block">
+                                            <button class="btn btn-block btn-primary" id="btn-edit-profile">
+                                                <i class="fa fa-pencil"></i>&nbsp;&nbsp;
+                                                <span data-lang="label-edit_profile">Edit Profile</span>
+                                            </button>
+                                            <button class="btn btn-block btn-primary" id="btn-dictionary">
+                                                <img src="./assets/img/icons/dictionary-icon.png" width="13px" />&nbsp;&nbsp;
+                                                <span data-lang="label-dictionary">Dictionary</span>
+                                            </button>
+                                            <button class="btn btn-block btn-primary" id="btn-edit-password">
+                                                <i class="fa fa-key"></i>&nbsp;&nbsp;
+                                                <span data-lang="label-edit_password">Change Password</span>
+                                            </button>
+                                            <button class="btn btn-block btn-primary" id="btn-edit-phone">
+                                                <img src="./assets/img/icons/switch.png" width="13px" />&nbsp;&nbsp;
+                                                <span data-lang="label-edit_number">Change Phone Number</span>
+                                            </button>
+                                            <button class="btn btn-block btn-primary" id="btn-delete-account">
+                                                <i class="fa fa-user-times"></i>&nbsp;&nbsp;<i class="fa-solid fa-user-slash"></i>
+                                                <span data-lang="label-delete_account">Delete Account</span>
+                                            </button>
+                                            <button class="btn btn-block btn-primary" id="btn-static-otp">
+                                                <img src="./assets/img/icons/phone.png" width="13px" />&nbsp;&nbsp;
+                                                <span data-lang="label-static_otp">Static OTP</span>
+                                            </button>
+                                            <button class="btn btn-block btn-primary" id="btn-show-sessions">
+                                                <img src="./assets/img/icons/device-icon.png" width="13px" />&nbsp;&nbsp;
+                                                <span data-lang="label-user_session">User Session</span>
+                                            </button>
+                                            <button class="btn btn-block btn-primary" id="btn-blocked-user">
+                                                <img src="./assets/img/icons/block.png" width="13px" />&nbsp;&nbsp;
+                                                <span data-lang="label-blocked_users">Blocked Users</span>
+                                            </button>
+                                            <button class="btn btn-block btn-primary" id="btn-admin-menu" style="display:none;">
+                                                <i class="fa fa-shield"></i>&nbsp;&nbsp;
+                                                <span data-lang="label-admin">Admin</span>
+                                            </button>
+                                            <button class="btn btn-block btn-primary" id="btn-local-storage">
+                                                <img src="./assets/img/icons/storage.png" width="13px" />&nbsp;&nbsp;
+                                                <span data-lang="label-local_storage">Local Storage</span>
+                                            </button>
+                                            <button id="pre-logout" type="button" class="btn btn-block btn-danger">
+                                                <i class="fa fa-sign-out"></i>&nbsp;&nbsp;
+                                                <span data-lang="label-logout">Log Out</span>
+                                            </button>
+                                        </div>
+                                        <div class="col-xl-8 d-inline-block" style="margin-top: 0.5rem;">
+                                            <button class="btn btn-block btn-primary" id="check-for-update" data-lang="label-check_for_update">Check
+                                                for update</button><br>
+                                            <p class="version">
+                                                <span id="version-number">1.1.0</span><br>
+                                                <span id="built-date"></span><br>
+                                                <span class="fa fa-spin fa-circle-o-notch" id="update-checker-loading"></span>
+                                                <span id="no-new-version" data-lang="label-update_not_available">No update available</span>
+                                                <a href="javascript:void(0)" class="btn btn-warning btn-block" id="update-available" data-lang="label-update-available">Update
+                                                    available
+            </span></a>
+            </p>
+        </div>
+    </div>
+    </div>
+    </div>
+    <!-- end panel account info -->
+    <!-- panel contact -->
+    <div class="tab-pane" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+        <div class="sidebar-header">
+            <div class="general-search-box">
+                <input type="text" class="general-search-input" id="contact-search" placeholder="Search Contact" data-lang="label-search_contact">
+                <button class="general-search-close-button" id="btn-close-search-contact" style="display: none;"><i class="fa fa-times"></i></button>
+            </div>
+            <!-- <div class="col-12 search-input-div contact-search float-left input-group">
+            <input type="text" class="form-control contact-search-box" id="contact-search" placeholder="Search Contact" data-lang="label-search_contact">
+          </div> -->
+        </div>
+        <div class="mid-sidebar-container">
+            <div style="height: 100%;overflow: hidden;display: grid;align-items: start;align-content: start;">
+                <div class="col-12 full-button pad-side-8">
+                    <button type="button" class="btn btn-primary text-center add-contact" id="add-contact">
+                        <i class="fa fa-plus"></i> Add Contact
+                    </button>
+                </div>
+                <div class="col-12 full-button pad-side-8">
+                    <button type="button" class="btn btn-primary text-center contact-label-button add-contact" id="show-label">
+                        <i class="fa fa-tag"></i> Contact Labels
+                    </button>
+                    <div id="label-pop">
+                        <label id="create-label" class="badge badge-primary badge-label app-badge-primary"><i class="fa fa-plus-circle"></i></label>
+                    </div>
+                </div>
+                <div class="col-12 full-button pad-side-8">
+                    <button type="button" class="btn btn-primary text-center add-group add-contact" id="refresh-contact">
+                        <span class="fa fa-refresh"></span> Refresh
+                    </button>
+                </div>
+                <ul class="list-unstyled account-list" id="chat-contact"></ul>
+            </div>
+        </div>
+    </div>
+    <!-- end panel contact -->
+    <!-- panel chat -->
+    <div class="tab-pane active" id="messages" role="tabpanel" aria-labelledby="messages-tab">
+        <!--  cst-account-search -->
+        <div class="sidebar-header">
+            <div class="archive-bar" id="archive-bar" style="display: none;">
+                <button class="button-close-archive"><i class="fa fa-arrow-left"></i></button>
+                <h5 class="archive-title">Archived Chats</h5>
+                <button class="button-unarchive-all"><img src="./assets/img/icons/unarchive.png" /></button>
+            </div>
+
+            <div class="search-all-message-box" id="search-all-message-bar">
+                <input type="text" class="search-all-message-input" id="chat-search-message-input" placeholder="Search Message">
+                <button class="search-all-view-close-button" style="display: none;"><i class="fa fa-times"></i></button>
+            </div>
+        </div>
+        <!-- <div class="sidebar-header">
+          <ol class="breadcrumb">
+            <li data-lang="label-conversations">Conversations</li>
+          </ol>
+        </div> -->
+        <!-- end  cst-account-search -->
+        <div class="mid-sidebar-container">
+            <ul class="list-unstyled search-all-message-list-container">
+                <ul class="list-unstyled account-list loading none-archive-list" id="chat-messages"></ul>
+                <h5 class="search-message-header-section">Search messages</h5>
+                <ul class="list-unstyled" id="chat-search-message" style="display: none;"></ul>
+            </ul>
+        </div>
+    </div>
+    <!-- end panel chat -->
+    <!-- panel group chat -->
+    <div class="tab-pane" id="group" role="tabpanel" aria-labelledby="group-tab">
+        <!--  cst-account-search -->
+        <div class="sidebar-header">
+            <div class="general-search-box">
+                <input type="text" class="general-search-input" id="group-search" placeholder="Search Group">
+                <button class="general-search-close-button" id="btn-close-search-group" style="display: none;"><i class="fa fa-times"></i></button>
+            </div>
+
+            <!-- <div class="search-input-div">
+            <input type="text" class="form-control contact-search-box" id="group-search" placeholder="Search Group">
+          </div> -->
+
+
+        </div>
+        <!-- end  cst-account-search -->
+        <div class="mid-sidebar-container">
+            <div style="height: 100%;overflow: hidden;display: grid;align-items: start;align-content: start;">
+                <div class="col-12 full-button pad-side-8">
+                    <button type="button" class="btn btn-primary text-center add-group add-contact" id="add-group">
+                        <i class="fa fa-users"></i> New Group
+                    </button>
+                </div>
+                <div class="col-12 full-button pad-side-8">
+                    <button type="button" class="btn btn-primary text-center add-group add-contact" id="add-conference">
+                        <span class="fa fa-video-camera"></span> New Conference
+                    </button>
+                </div>
+                <div class="col-12 full-button pad-side-8">
+                    <button type="button" class="btn btn-primary text-center add-group add-contact" id="create-channel">
+                        <span class="fa fa-bullhorn"></span> New Channel
+                    </button>
+                </div>
+                <div class="col-12 full-button pad-side-8">
+                    <button type="button" class="btn btn-primary text-center add-group add-contact" id="refresh-group">
+                        <span class="fa fa-refresh"></span> Refresh
+                    </button>
+                </div>
+                <ul class="list-unstyled account-list" id="group-list">
+
+                </ul>
+            </div>
+        </div>
+
+    </div>
+    <!-- end panel group chat -->
+    </div>
+    <!-- end  -->
+    </div>
+    <!-- end panel settings -->
+    <!-- panel footer -->
+    <div class="sidebar-footer-icon nav nav-tabs">
+        <ul id="icon-sidebar">
+            <li>
+                <a id="nav-account-info-tab" class="nav-sidebar-button" tabindex="-1" tab="#account-info" aria-controls="account-info" role="tab" data-toggle="tab" rel="tooltip" data-delay='{ "show": 1000 }' data-placement="top" data-lang="label-profile" title="Profile">
+                    <i class="fa fa-user-circle-o" style="font-size:20px;" aria-hidden="true"></i>
+                </a>
+            </li>
+            <li>
+                <a id="nav-contact-tab" class="nav-sidebar-button" tabindex="-1" tab="#contact" aria-controls="contact" role="tab" data-toggle="tab" rel="tooltip" data-delay='{ "show": 1000 }' data-placement="top" data-lang="label-contact" title="Contact">
+                    <i class="fa fa-address-book-o" style="font-size:20px;" aria-hidden="true"></i>
+                </a>
+            </li>
+            <li>
+                <a id="nav-messages-tab" class="nav-sidebar-button" tabindex="-1" tab="#messages" aria-controls="messages" role="tab" data-toggle="tab" rel="tooltip" data-delay='{ "show": 1000 }' data-placement="top" data-lang="label-chat" title="Chat">
+                    <i class="fa fa-commenting icon-sidebar-active" style="font-size:20px;" aria-hidden="true"></i>
+                </a>
+            </li>
+            <li>
+                <a id="nav-group-tab" class="nav-sidebar-button" tabindex="-1" tab="#group" aria-controls="group" role="tab" data-toggle="tab" rel="tooltip" data-delay='{ "show": 1000 }' data-placement="top" data-lang="label-group" title="Group">
+                    <i class="fa fa-users" style="font-size:20px;" aria-hidden="true"></i>
+                </a>
+            </li>
+            <li>
+                <a data-toggle="modal" data-target="#mySetting-dialog" href="javascript:void(0)" tabindex="-1" id="nav-settings-tab" rel="tooltip" data-delay='{ "show": 1000 }' data-placement="top" data-lang="label-setting" title="Setting">
+                    <i class="fa fa-cog" aria-hidden="true" style="font-size:20px;"></i>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <!-- end panel footer -->
+    </nav>
+    </span>
+    <!-- Page Content Holder -->
+    <div id="section-chat-body" style="display:none">
+        <div id="content" class="cst-content">
+
+            <div class="cst-top-container ">
+
+                <div id="contact_header">
+                    <div class="header-item">
+                        <button type="button" id="sidebarCollapse" tabindex="-1" class="btn btn-primary navbar-btn">
+                            <i class="fa fa-caret-left"></i>
+                            <span></span>
+                        </button>
+                    </div>
+                    <div class="header-item chat-status" style="display: none;">
+                        <i class="fa fa-circle" id="chat-online-status" aria-hidden="true" style="display: none;"></i>
+                    </div>
+                    <div id="chat-secure-status" class="header-item chat-secure-status" style="display: none;">
+                        <img src="./assets/img/icons/ic_secure.png" />
+                    </div>
+                    <div class="active-chat-name header-item">
+                        <span id="active-chat-name">Eric Thakvika</span>
+                        <div class="chat-state">
+                            <span id="chat-state"></span>
+                        </div>
+                    </div>
+                    <div class="search-view-container">
+                        <div class="search-view-header">
+                            <input class="search-view-header-input" placeholder="Search Message" />
+                            <button class="search-view-close-button"><i class="fa fa-times"></i></button>
+                        </div>
+                        <div class="search-message-result">
+
+                        </div>
+                    </div>
+                    <div class="header-item-right header-item header-item-menu option-menu-header">
+                        <button class="btn-transparent option-menu" id="header_menu">
+                            <i class="fa fa-ellipsis-v msg-setting" aria-hidden="true"></i>
+                        </button>
+                    </div>
+
+                    <div class="header-item-right header-item header-item-menu conference-menu">
+                        <button class="btn-transparent" id="conference-menu">
+                            <i class="fa fa-video-camera msg-setting" aria-hidden="true"></i>
+                        </button>
+                    </div>
+
+                    <div class="header-item-right header-item header-item-menu search-menu">
+                        <button class="btn-transparent" id="search-menu">
+                            <i class="fa fa-search msg-setting" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+                <div id="select-mode">
+                    <button class="btn btn-primary" id="bulk-forward">FORWARD <span id="selected-number">1</span></button>
+                    <span class="float-right" id="toggle-select-mode"><i class="fa fa-close"></i></span>
+                </div>
+                <div class="pin-voice-bar" style="display: none;">
+                    <div class="pin-voice-left">
+                        <button class="pin-voice-button-back" id="pin-voice-play-back" role="button" tabindex="-1">
+                            <i class="fa fa-step-backward"></i>
+                        </button>
+                        <button class="pin-voice-button" id="pin-voice-play" role="button" tabindex="-1">
+                            <i class="fa fa-play"></i>
+                        </button>
+                        <button class="pin-voice-button-forward" id="pin-voice-play-forward" role="button" tabindex="-1">
+                            <i class="fa fa-step-forward"></i>
+                        </button>
+                    </div>
+
+                    <div class="pin-voice-center">
+                        <div>
+                            <span id="pin-voice-title"></span>
+                        </div>
+                        <div>
+                            <span id="pin-voice-sub-title">Voice Message</span>
+                        </div>
+                    </div>
+
+                    <div class="pin-voice-right">
+                        <img class="pin-voice-button-speed" src="./assets/img/icons/voice-speed.png" />
+                        <button class="pin-voice-button-close button" id="pin-voice-close" role="button" tabindex="-1">
+                            <i class="fa fa-close"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="pin-message-bar" style="display: none;">
+                    <div class="pin-message-bar-top">
+                        <div class="pin-message-title">
+                            <div style="font-weight: bold;">Pinned message</div>
+                            <div class="pin-message-type"></div>
+                        </div>
+                        <div class="pin-message-menu">
+                            <div class="pin-message-menu-badge">0</div>
+                            <img class="pin-message-list-icon" src="./assets/img/icons/menu_pinnedlist.png" />
+                        </div>
+                    </div>
+                    <div class="pin-message-result">
+                        <div class="pin-message-result-title-box">
+                            <h5 class="pin-message-result-title">Pinned messages</h5>
+                            <div class="pin-message-title-menu-box">
+                                <img class="pin-message-button-refresh" src="./assets/img/icons/refreshing.png" />
+                                <img class="pin-message-button-unpin" src="./assets/img/icons/msg_unpin.png" />
+                            </div>
+                        </div>
+
+                        <div class="pin-message-result-container">
+                        </div>
+                    </div>
+                </div>
+                <div id="conference-collapse" class="conference-collapse" style="display: none;" data-toggle="tooltip" data-placement="top" title="Extend Conference">
+                    <h4 class="conference-collapse-text">Conference</h4>
+                    <button class="btn-extend-conference"><i class="fa fa-arrows-alt" aria-hidden="true"></i></button>
+                </div>
+            </div>
+            <div id="middle-container" class="cst-middle-container">
+                <div id="drag-drop-div">
+                    <div class="inner">
+                        <i class="fa fa-file"></i>
+                        <br>
+                        <span data-lang="message-drop_file">Drop files here to send</span>
+                    </div>
+                </div>
+                <div class="top-chat-date">
+                    <div id="chat-date"></div>
+                </div>
+                <div id="top-fetch-banner" class="text-center">
+                    <span>Loading messages...</span>
+                </div>
+                <div class="messages chat-body" id="chat-body-clone" tabindex="0"></div>
+                <!-- clip pathes for droplet(?) in the bottom left/right of the message bubble -->
+                <svg height="0" width="0">
+
+                    <defs>
+                        <clipPath id="left-droplet">
+                            <path d="M 10,0 A 10,10 0 0 1 0,10 H 16 V 0 Z">
+                        </clipPath>
+                        <clipPath id="right-droplet">
+                            <path d="M 6,0 A 10,10 0 0 0 16,10 H 0 V 0 Z">
+                        </clipPath>
+                    </defs>
+                </svg>
+                <button class="btn-secondary" id="scroll-down" tabindex="-1">
+                    <i class="fa fa-angle-down"></i>
+                </button>
+            </div>
+            <div id="bottom_unblock_user" class="bottom_unblock_user">
+                <span id="unblock_user_text">Unblock</span>
+            </div>
+            <div id="bottom_channel_mute" class="bottom_channel_mute">
+                <span id="channel_mute_text">Mute</span>
+            </div>
+            <div id="btn_request_group_key" class="btn-request-group-key">
+                <span id="request_group_key_text">Request key</span>
+            </div>
+            <div id="cst-bottom-container" class="cst-bottom-container">
+                <div class="mention-list" id="mention-list">
+                </div>
+                <ul id="icon-msg">
+                    <li class="chat-area" tabindex="-1">
+                        <!-- <textarea class="send-msg" rows="1" placeholder="Write something" tabindex="0"></textarea> -->
+                        <div class="send-msg textfield hide-native-scrollbar span12" contentEditable="true" tabindex="0" data-text="Write something"></div>
+                    </li>
+                    <li class="icon">
+                        <button id="openLocation" class="btn-transparent" tabindex="0">
+                            <i class="fa fa-map-marker" aria-hidden="true"></i>
+                        </button>
+                        <input type="file" id="msg-file-input" multiple="" tabindex="-1">
+                    </li>
+                    <li class="icon icon-attachment">
+                        <button id="filesToggle" class="btn-transparent" tabindex="0">
+                            <i class="fa fa-paperclip" aria-hidden="true"></i>
+                        </button>
+                        <input type="file" id="msg-file-input" multiple tabindex="-1">
+                    </li>
+                    <li class="icon">
+                        <button class="btn-transparent" id="emojiTab" tabindex="0">
+                            <i class="fa fa-smile-o"></i>
+                        </button>
+                        <div id="emoji-pop">
+                            <div class="sp-arrow"></div>
+                        </div>
+                    </li>
+                    <li class="icon">
+                        <button class="btn-transparent" id="stickersToggle" tabindex="0">
+                            <div class="icon-sticker"></div>
+                        </button>
+                    </li>
+                    <li class="icon">
+                        <button class="btn-transparent" id="voice-recorder" tabindex="0">
+                            <i class="fa fa-microphone" aria-hidden="true"></i>
+                        </button>
+                        <input type="file" id="voice-input" capture id="recorder" tabindex="-1">
+                    </li>
+                </ul>
+                <div id="recording-status">
+                    <span class="timer">0:00</span>
+                    <button class="btn-transparent float-right" id="cancel-recording" tabindex="0">
+                        <span>CANCEL</span>
+                    </button>
+                </div>
+                <div class="edit-message-button-group">
+                    <button class="btn-transparent red" id="cancel-edit">
+                        <i class="fa fa-times"></i>
+                    </button>
+                    <button class="btn-transparent" id="confirm-edit">
+                        <i class="fa fa-check"></i>
+                    </button>
+                </div>
+                <div id='send-msg-button'>
+                    <button class="btn-transparent">
+                        <i class="fa fa-paper-plane"></i>
+                    </button>
+                </div>
+                <div id="reply-msg">
+                    <div class="icon float-left">
+                        <i class="fa fa-reply"></i>
+                    </div>
+                    <div>
+                        <div class="float-left">
+                            <span class="contact-name">Contact-name</span>
+                            <br>
+                            <span class="chat-type">Image</span>
+                        </div>
+                        <button class="btn-transparent">
+                            <i class="fa fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- <script>
+    $(document).ready(function () {
+      $(".nav-tabs a").click(function () {
+        $(this).tab('show');
+      });
+    });
+  </script> -->
+        </div>
+    </div>
+    <div id="initial-body">
+        <p id="init-message">Select a
+            <a href="javascript:void(0)" id="open-contact">contact</a> or a
+            <a href="javascript:void(0)" id="open-group">group</a> to start conversation
+        </p>
+        <p id="init-connecting">Connecting...</p>
+    </div>
+    </div>
+    </div>
+    <!-- App update dialog -->
+    <div id="section-dialog">
+        <div class="add-contact-dialog">
+            <!-- Trigger the modal with a button -->
+            <!-- Modal -->
+            <div class="modal fade" id="new-contact-dialog" role="dialog" tabindex='-1'>
+                <div class="modal-dialog modal-dialog-profile">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="number" data-lang="label-contact_number">Contact number</label>
+                                <input class="form-control input-number" id="new-contact-number" type="text" name="number">
+                            </div>
+                            <div class="text-right ">
+                                <button class="btn btn-primary" id="confirm-add-contact" data-lang="label-add_contact" enable-enter="true">Add Contact</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+        <div class="edit-profile-dialog">
+            <!-- Trigger the modal with a button -->
+            <!-- Modal -->
+            <div class="modal fade" id="edit-profile-dialog" role="dialog" tabindex='-1'>
+                <div class="modal-dialog edit-profile-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="firstname">First Name</label>
+                                <input type="text" class="form-control" id="new-first-name" maxlength="25" />
+                            </div>
+                            <div class="form-group">
+                                <label for="firstname">Last Name</label>
+                                <input type="text" class="form-control" id="new-last-name" maxlength="25" />
+                            </div>
+
+                        </div>
+                        <div class="modal-footer modal-footer-end-color">
+                            <button class="btn btn-primary float-right" id="save-profile-info" enable-enter="true"><i class="fa fa-save"></i>&nbsp;&nbsp;<span data-lang="label-save">Save</span></button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+        <div class="profile-crop-dialog">
+            <!-- Trigger the modal with a button -->
+            <!-- Modal -->
+            <div class="modal fade" id="profile-crop-dialog" role="dialog" tabindex='-1'>
+                <div class="modal-dialog profile-crop-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" data-lang="label-upload_profile">Upload profile picture</h5>
+                        </div>
+                        <div class="modal-body">
+                            <div id="crop-image-div" class="center-block"></div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="image-rotate-btn btn btn-primary mr-auto" data-deg="-90" data-lang="label-rotate">Rotate</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal" data-lang="label-close">Close</button>
+                            <button type="button" id="crop-image-btn" class="btn btn-primary" data-lang="label-crop">Crop</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+        <div class="update-confirm-dialog">
+            <!-- Trigger the modal with a button -->
+            <!-- Modal -->
+            <div class="modal fade" id="update-modal" role="dialog" tabindex='-1' style="z-index:99998">
+                <div class="modal-dialog update-confirm-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5>Update Available</h5>
+                        </div>
+                        <div class="modal-body text-center">
+                            <div class="logo">
+                            </div>
+                            <div><span>Version</span>
+                                <span class="version"></span>
+                            </div>
+                            <div id="update-progress">
+                                <div class="progressbar"></div>
+                            </div>
+                            <div class="releaseNotes"></div>
+                            <button class="btn btn-block btn-primary" id="install">INSTALL</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="setting-dialog">
+            <!-- Trigger the modal with a button -->
+            <!-- Modal -->
+            <div class="modal fade" id="mySetting-dialog" role="dialog" tabindex='-1'>
+                <div class="modal-dialog modal-dialog-setting">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 data-lang="label-setting">Settings</h4>
+                        </div>
+                        <div class="modal-body modal-body-setting">
+                            <h5 data-lang="label-theme">Theme</h5>
+
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input theme-setting" storage="auto" type="checkbox" value="">
+                                    <span data-lang="label-enable_scheduling">Enable Scheduling</span>
+                                    &nbsp;&nbsp;&nbsp;<p>Auto switch to dark theme</p>
+                                </label>
+                            </div>
+                            <div class="row col-md-12" id="time-inputs">
+                                <div class="form-check form-check-inline">
+                                    <div class="input-group bootstrap-timepicker timepicker">
+                                        <label for="start_time" data-lang="label-from">From</label>
+                                        <input type="text" id="start_time" class="time-input">
+                                    </div>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <div class="input-group bootstrap-timepicker timepicker">
+                                        <label for="end_time" data-lang="label-to">To</label>
+                                        <input type="text" id="end_time" class="time-input">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row col-md-12" id="theme-switch">
+                                <div class="form-check form-check-inline">
+                                    <div class="custom-control custom-radio">
+                                        <input class="custom-control-input theme-radio" id="theme-dark" name="theme" data-theme="dark" type="radio">
+                                        <label class="custom-control-label" for="theme-dark"><span data-lang="label-theme_dark">Dark</span></label>
+                                    </div>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <div class="custom-control custom-radio">
+                                        <input class="custom-control-input theme-radio" id="theme-light" name="theme" data-theme="light" type="radio">
+                                        <label class="custom-control-label" for="theme-light"><span data-lang="label-theme_light">Light</span></label>
+                                    </div>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <div class="custom-control custom-radio">
+                                        <input class="custom-control-input theme-radio" id="theme-system" name="theme" data-theme="system_theme" type="radio">
+                                        <label class="custom-control-label" for="theme-system"><span data-lang="label-theme_system">System</span></label>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <hr/>
+            <h5 data-lang="label-language">Language</h5>
+            <div class="language-setting btn-group" role="group">
+              <button type="button" class="btn language-button" data-code="en"><img src="./assets/vendor/flag-icon/gb.svg" alt="" class="flag-img"></button>
+              <button type="button" class="btn language-button" data-code="kh"><img src="./assets/vendor/flag-icon/kh.svg" alt="" class="flag-img"></button>
+            </div> -->
+                            <!-- <hr/>
+            <h5>Chat</h5>   
+            <div class="form-check">
+              <label class="form-check-label">
+                <input class="form-check-input" name="avatar-in-message" type="checkbox" value="">
+                Avatar in messages
+                &nbsp;&nbsp;&nbsp;<p>Show avatar in earch massage</p>
+              </label>
+            </div>         
+            <div class="form-check">
+              <label class="form-check-label">
+                <input class="form-check-input" name="send-on-enter" type="checkbox" value="">
+                Send on Enter
+                &nbsp;&nbsp;&nbsp;<p>Message can be sent by pressing the Enter button</p>
+              </label>
+            </div>  
+            <div class="form-check">
+              <label class="form-check-label">
+                <input class="form-check-input" name="show-background" type="checkbox" value="">
+                Show Background
+                &nbsp;&nbsp;&nbsp;<p>Disabling may increase performance</p>
+              </label>
+            </div>
+            <div class="form-check">
+              <label class="form-check-label">
+                <input class="form-check-input" name="font-size" type="checkbox" value="">
+                Font size 
+                &nbsp;&nbsp;&nbsp;<p>Size of message text</p>
+              </label>
+            </div>  -->
+                            <hr />
+                            <h5>Notification</h5>
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input notification-setting" storage="notification" type="checkbox" value="">
+                                    <span data-lang="label-enable">Enable</span>
+                                    &nbsp;&nbsp;&nbsp;<p data-lang="label-allow_notification">Allow notification</p>
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input notification-setting" storage="notification-sound" type="checkbox" value="">
+                                    <span data-lang="label-audio-alert">Audio alert</span>
+                                    &nbsp;&nbsp;&nbsp;<p data-lang="label-alert_with_sound">Alert sound with notification</p>
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input notification-setting" storage="notification-detail" type="checkbox" value="">
+                                    <span data-lang="label-show_message_in_notification">Show message in notification</span>
+                                    &nbsp;&nbsp;&nbsp;<p data-lang="label-show_message_in_notification_area">Show message text in notification area</p>
+                                </label>
+                            </div>
+                            <hr />
+                            <div id="box-autolaunch">
+                                <h5 data-lang="label-autolaunch">Auto Launch</h5>
+                                <div class="form-check">
+                                    <label class="form-check-label">
+                                        <input class="form-check-input autolaunch-setting" storage="autolaunch" type="checkbox" value="">
+                                        <span data-lang="label-enable">Enable</span>
+                                        &nbsp;&nbsp;&nbsp;<p data-lang="label-autolaunch_desc">Auto launch app on start up</p>
+                                    </label>
+                                </div>
+                                <hr>
+                            </div>
+                            <h5 data-lang="label-forward_tracking">Forward Tracking</h5>
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input forward-tracking-setting" storage="forward_tracking" type="checkbox" value="">
+                                    <span data-lang="label-enable">Enable</span>
+                                    &nbsp;&nbsp;&nbsp;<p data-lang="label-forward_tracking_desc">Tracking forwarded message</p>
+                                </label>
+                            </div>
+                            <hr>
+                            <h5 data-lang="label-show_number">Show phone number in top bar</h5>
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input show_number-setting" storage="show_number" type="checkbox" value="">
+                                    <span data-lang="label-enable">Enable</span>
+                                    &nbsp;&nbsp;&nbsp;<p data-lang="label-show_number_desc">Show other party phone number in top bar in chat window</p>
+                                </label>
+                            </div>
+                            <hr>
+                            <h5 data-lang="label-wallpaper">Wallpaper</h5>
+                            <div class="row">
+                                <div class="col-md-9 col-sm-9">
+                                    <div id="wallpaper-preview" class="center-block"></div>
+                                </div>
+                                <div class="col-md-3 col-sm-3">
+                                    <button type="button" class="btn btn-primary wallpaper btn-block" id='btn-browse-wallpaper' data-lang="label-browse">Browse</button>
+                                    <input type="file" class="btn btn-primary btn-block browse" name="file" id="input-wallpaper-image" style="display: none;" accept="image/gif, image/png, image/jpeg, image/bmp, image/webp">
+                                    <button type="button" class="btn btn-primary btn-block " id='btn-save-wallpaper' data-lang="label-save">Save</button>
+                                    <button type="button" class="btn btn-secondary btn-block " id='btn-reset-wallpaper' data-lang="label-default">Default</button>
+                                    <div class="btn-group col-12 full-button" role="group">
+                                        <button type="button" class="btn btn-secondary btn-rotate-wallpaper" data-deg="-90"><i class="fa fa-undo"></i></button>
+                                        <button type="button" class="btn btn-secondary btn-rotate-wallpaper" data-deg="90"><i class="fa fa-repeat"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="add-group-dialog">
+            <!-- Trigger the modal with a button -->
+            <!-- Modal -->
+            <div class="modal fade" id="new-group-dialog" role="dialog" tabindex='-1'>
+                <div class="modal-dialog modal-dialog-profile">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="group-name" data-lang="label-group_name">Group name</label>
+                                <input class="form-control" id="group-name" type="text" name="name" maxlength="128" required>
+                            </div>
+                            <div class="form-group">
+                                <div class="form-icon">
+                                    <i class="fa fa-search">
+                                    </i>
+                                    <input type="text" id="search-member" class="search-input box-no-border" placeholder="Search">
+                                </div>
+                                <label for="contacts" data-lang="label-select_members">Select members</label>
+                                <ul class="contact-list list-unstyled">
+
+                                </ul>
+                            </div>
+                            <div class="text-right ">
+                                <button class="btn btn-primary" id="confirm-create-group" data-lang="label-create" enable-enter="true">CREATE</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+        <div class="profile-dialog">
+            <!-- Trigger the modal with a button -->
+            <!-- Modal -->
+            <div class="modal fade" id="profile-dialog" role="dialog" tabindex='-1'>
+                <div class="modal-dialog profile-dialog-modal">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header profile-detail-header">
+                            <div class="contact-img" id="detail-image">
+
+                            </div>
+                            <input type="file" class="hidden-input" id="new-group-image" accept="image/gif, image/png, image/jpeg, image/bmp, image/webp">
+                            <div class="contact-info">
+                                <span class="contact-name">Potato6</span>
+                                <input type="text" class="hidden-input" id="new-group-name" ​ maxlength="128">
+                                <button class="group-edit-button btn-transparent" id="edit-group-name" tabindex="0"><i class="fa fa-pencil"></i></button>
+                                <button class="group-edit-button btn-transparent" id="save-group-name" tabindex="0"><i class="fa fa-save"></i></button>
+                                <div class="btn-group" id="individual">
+                                    <button class="btn-transparent" id="send-a-message"><i class="fa fa-comment"></i></button>
+                                    <button class="btn-transparent" id="add-as-contact"><i class="fa fa-user-plus"></i></button>
+                                </div>
+                                <br><br>
+                                <span class="contact-number"></span>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                        <div class="modal-body">
+                            <section id="media" class="fade media-wrapper">
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <li class="nav-item">
+                                        <a href="#media-photo" id="photo-tab" data-toggle="media-tab" class="nav-link active"><i class="fa fa-photo"></i><span> Photos</span></a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#media-video" id="video-tab" data-toggle="media-tab" class="nav-link"><i class="fa fa-file-video-o"></i><span> Videos</span></a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#media-document" id="document-tab" data-toggle="media-tab" class="nav-link"><i class="fa fa-file-archive-o"></i><span> Documents</span></a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#media-link" id="link-tab" data-toggle="media-tab" class="nav-link"><i class="fa fa-file-archive-o"></i><span> Links</span></a>
+                                    </li>
+                                </ul>
+                                <a href="#" class="back-media"><i class="fa fa-arrow-left"></i></a>
+                                <a href="#" class="reload-indicator"><i class="fa fa-refresh fa-spin"></i></a>
+                                <button class="btn btn-rounded btn-primary bottom-corner cancel-forward-gallery" style="z-index: 2;">Cancel</button>
+                                <button class="btn btn-rounded btn-primary bottom-corner forward-gallery" style="z-index: 2;">Forward <span class="gallery-num-forward"></span></button>
+                                <div class="tab-content clearfix">
+                                    <div class="tab-pane" id="media-photo" data-type="image" aria-labelledby="photo-tab">
+
+                                    </div>
+                                    <div class="tab-pane" id="media-video" data-type="video" aria-labelledby="video-tab">
+
+                                    </div>
+                                    <div class="tab-pane" id="media-document" data-type="file" aria-labelledby="document-tab">
+
+                                    </div>
+                                    <div class="tab-pane" id="media-link" data-type="link" aria-labelledby="link-tab">
+
+                                    </div>
+                                </div>
+                            </section>
+                            <section id="old-messages" class="fade old-message-wrapper">
+                                <div id="lookup-select-mode">
+                                    <button class="btn btn-primary" id="bulk-forward">FORWARD <span id="lookup-selected-number">1</span></button>
+                                    <span class="float-right" id="lookup-toggle-select-mode"><i class="fa fa-close"></i></span>
+                                </div>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text icon-calendar"><i class="fa fa-calendar"></i></span>
+                                    </div>
+                                    <input placeholder="Please choose lookup date here" type='text' class="datepicker-here date-range-picker form-control" data-range="true" data-multiple-dates-separator=" - " data-language='en' position="bottom left" data-date-format="dd-mm-yyyy" />
+                                </div>
+                                <a href="#" class="back-message"><i class="fa fa-arrow-left"></i></a>
+                                <a href="#" class="reload-indicator"><i class="fa fa-refresh fa-spin"></i></a>
+                                <div class="message-container">
+
+                                </div>
+                            </section>
+                            <section id="info-body" class="fade show">
+                                <div>
+                                    <ul class="profile-interactions list-unstyled" style="float: left;">
+                                        <div class="li-head lookup" id="lookup-message">
+                                            <span class="btn-transparent">
+                                                <i class="fa fa-calendar right-20"></i>Lookup Message
+                                            </span>
+                                        </div>
+                                        <li data-target="photo-tab" data-toggle="media">
+                                            <div class="li-head">
+                                                <span><i class="fa fa-file-image-o right-20"></i>Photos</span>
+                                            </div>
+                                        </li>
+                                        <li data-target="video-tab" data-toggle="media">
+                                            <div class="li-head">
+                                                <span><i class="fa fa-file-video-o right-20"></i>Videos</span>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                    <ul class="profile-interactions list-unstyled" style="float: left;">
+                                        <li data-target="document-tab" data-toggle="media">
+                                            <div class="li-head">
+                                                <span><i class="fa fa-file-archive-o right-20"></i>Documents</span>
+                                            </div>
+                                        </li>
+                                        <li data-target="link-tab" data-toggle="media">
+                                            <div class="li-head">
+                                                <span><i class="fa fa-file-archive-o right-20"></i>Links</span>
+                                            </div>
+                                        </li>
+                                        <li id="channel-link">
+                                            <div class="li-head">
+                                                <span><i class="fa fa-link right-20"></i><span id="channel-url">Link</span></span>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="seperator clear-float-both"></div>
+                                <div class="group-list-container">
+                                    <div class="li-head">
+                                        <span><i class="fa fa-users right-20"></i>Groups</span>
+                                        <div class="form-icon">
+                                            <i class="fa fa-search">
+                                            </i>
+                                            <input type="text" id="search-group" class="search-input box-no-border" placeholder="Search groups or channels">
+                                        </div>
+                                    </div>
+                                    <ul class="list-unstyled" id="contact-group-list">
+
+                                    </ul>
+                                </div>
+                                <div class="li-head members">
+                                    <span>
+                                        <i class="fa fa-users right-20"></i>Members</span>
+                                    <div class="form-icon">
+                                        <i class="fa fa-search">
+                                        </i>
+                                        <input type="text" id="search-member" class="search-input box-no-border" placeholder="Search members">
+                                    </div>
+                                    <button class="btn-transparent float-right" id="add_member">
+                                        <i class="fa fa-user-plus"></i>
+                                    </button>
+                                </div>
+                                <ul class="list-unstyled" id="member-list">
+
+                                </ul>
+                                <div class="li-head leave">
+                                    <span class="btn-transparent" id="leave-group">
+                                        <i class="fa fa-sign-out right-20"></i>Leave
+                                    </span>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="add-member-dialog">
+            <!-- Trigger the modal with a button -->
+            <!-- Modal -->
+            <div class="modal fade" id="add-member-dialog" role="dialog" tabindex='-1'>
+                <div class="modal-dialog modal-dialog-profile">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <div class="form-icon">
+                                    <i class="fa fa-search">
+                                    </i>
+                                    <input type="text" id="search-member" class="search-input box-no-border" placeholder="Search">
+                                </div>
+                            </div>
+                            <label for="contacts" data-lang="label-select_member">Select member</label>
+
+                            <ul class="contact-list list-unstyled">
+
+                            </ul>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+        <div class="confirm-dialog">
+            <!-- Trigger the modal with a button -->
+            <!-- Modal -->
+            <div class="modal" id="confirm-dialog" role="dialog" tabindex='-1'>
+                <div class="modal-dialog logout-confirm-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <h5 id="confirm-message">Are you sure you want to logout?</h5>
+
+                            <form id="choose-delete-form" style="display: none;">
+                                <div class="form-group">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="delete-message" id="delete-for-everyone" value="true">
+                                        <label class="form-check-label" for="delete-for-everyone" style="margin-top: 2px;">
+                                            Delete both sides
+                                        </label>
+                                    </div>
+                                    <br />
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="delete-message" id="delete-for-me" value="false" checked>
+                                        <label class="form-check-label" for="delete-for-me" style="margin-top: 2px;">
+                                            Delete at your side
+                                        </label>
+                                    </div>
+                                </div>
+                            </form>
+                            <div class="float-right">
+                                <button data-dismiss="modal" class="btn btn-default">Cancel</button>
+                                <button id="confirm" class="btn btn-primary" enable-enter="true">Yes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="read-dialog">
+            <!-- Trigger the modal with a button -->
+            <!-- Modal -->
+            <div class="modal fade" id="read-dialog" role="dialog" tabindex='-1'>
+                <div class="modal-dialog modal-dialog-profile">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 data-lang="label-read_by">Read by</h5>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <ul class="contact-list list-unstyled">
+
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+        <div class="forward-message-dialog">
+            <!-- Trigger the modal with a button -->
+            <!-- Modal -->
+            <div class="modal fade" id="forward-message-dialog" role="dialog" tabindex='-1'>
+                <div class="modal-dialog modal-dialog-profile">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <div class="form-icon">
+                                    <i class="fa fa-search">
+                                    </i>
+                                    <input type="text" id="search-contact" placeholder="Search contact">
+                                </div>
+                                <label for="contacts" data-lang="label-forward_to">Forward to</label>
+                                <ul class="contact-list list-unstyled" id="forward-chat-list">
+
+                                </ul>
+                            </div>
+                            <div class="text-right ">
+                                <button class="btn btn-primary" id="confirm-forward" data-lang="label-forward" enable-enter="true">FORWARD</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="location-dialog">
+            <!-- Trigger the modal with a button -->
+            <!-- Modal -->
+            <div class="modal fade" id="location-dialog" role="dialog" tabindex='-1'>
+                <div class="modal-dialog modal-dialog-map">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Mark Location</h4>
+                        </div>
+                        <div class="modal-body modal-body-map">
+                            <div class="map-container">
+                                <div id="map"></div>
+                            </div>
+
+                            <div class="row location-buttons">
+                                <div class="col-md-12">
+                                    <button class="btn btn-primary" id="current-location" style="display: none;"><i class="fa fa-crosshairs"></i> Current location</button>
+                                    <button class="btn btn-primary" id="send-location"><i class="fa fa-paper-plane"></i> Send</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="edit-password-dialog">
+            <!-- Trigger the modal with a button -->
+            <!-- Modal -->
+            <div class="modal fade" id="edit-password-dialog" role="dialog" tabindex='-1'>
+                <div class="modal-dialog edit-password-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="current_password">Current Password</label>
+                                <input type="password" class="form-control" id="current_password" />
+                            </div>
+                            <div class="form-group">
+                                <label for="new_password">New Password</label>
+                                <input type="password" class="form-control" id="new_password" />
+                            </div>
+                            <div class="form-group">
+                                <label for="confirm_password">Confirm Password</label>
+                                <input type="password" class="form-control" id="confirm_password">
+                            </div>
+                        </div>
+                        <div class="modal-footer modal-footer-end-color">
+                            <button class="btn btn-primary float-right" id="save-password" enable-enter="true"><i class="fa fa-key"></i>&nbsp;&nbsp;<span data-lang="label-save">Save</span></button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+        <div class="session-dialog">
+            <!-- Trigger the modal with a button -->
+            <!-- Modal -->
+            <div class="modal fade" id="user-session-dialog" role="dialog" tabindex='-1'>
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 data-lang="label-user_session">User session</h4>
+                            <button class="btn btn-transparent" id="refresh-session" style="margin-top: -9px;"><i class="fa fa-refresh"></i></button>
+                        </div>
+                        <hr>
+                        <div class="modal-body">
+                            <div id="current-session">
+                                <span><u>Current Session</u></span>
+                                <div></div>
+                            </div>
+                            <div id="other-sessions">
+                                <hr>
+                                <span><u>Other Sessions</u></span>
+                                <div class="session-container"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="session-dialog">
+            <!-- Trigger the modal with a button -->
+            <!-- Modal -->
+            <div class="modal fade" id="blocked-user-dialog" role="dialog" tabindex='-1'>
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 data-lang="label-blocked_users">Blocked Users</h4>
+                            <!-- <button class="btn btn-transparent" id="refresh-session" style="margin-top: -9px;"><i class="fa fa-refresh"></i></button> -->
+                        </div>
+                        <div class="modal-body">
+                            <ul class="list-unstyled" id="blocked-user-list">
+
+                            </ul>
+                            <hr />
+                            <button class="btn-transparent" id="btn-add-user-block" style="margin-top: -9px;"><i class="fa fa-user-plus right-20"></i>Block user</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="block-user-dialog">
+            <!-- Trigger the modal with a button -->
+            <!-- Modal -->
+            <div class="modal fade" id="block-user-dialog" role="dialog" tabindex='-1'>
+                <div class="modal-dialog modal-block-user">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="block_user" data-lang="label-block_user">Block user</label>
+                            </div>
+                            <div class="form-group">
+                                <div class="form-icon">
+                                    <i class="fa fa-search">
+                                    </i>
+                                    <input type="text" id="search-block-user" class="search-input box-no-border" placeholder="Search">
+                                </div>
+                                <hr />
+                                <ul class="block-contact-list list-unstyled" id="block-contact-list">
+
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+        <div class="gallery-modal">
+            <div id="gallery-modal" class="modal fade" tabindex='-1'>
+                <div class="modal-dialog"></div>
+                <div class="gallery-modal-button-close"><img src="./assets/img/icons/multiply.png" /></div>
+                <div class="gallery-modal-body">
+                    <div class="gallery-modal-content">
+                        <img src="" alt="">
+                    </div>
+                    <div class="gallery-modal-description">
+                        <div class="gallery-modal-sender">
+                            <div class="gallery-modal-avatar">
+                                <img src="" />
+                            </div>
+                            <div>
+                                <div class="gallery-modal-sender-name">Dummy Sender</div>
+                                <div class="gallery-modal-timestamp"></div>
+                            </div>
+                        </div>
+                        <span class="gallery-modal-caption caption-scrolling">Dummy caption. It's Greek to you. Unless, of course, you're Greek, in
+                            which case, it really makes no sense.</span>
+                    </div>
+                </div>
+                <div class="gallery-modal-navigator">
+                    <div class="gallery-modal-left">
+                        <button class="gallery-modal-button"><img src="./assets/img/icons/left-arrow.png" /></button>
+                    </div>
+                    <div class="gallery-modal-right">
+                        <button class="gallery-modal-button"><img src="./assets/img/icons/right-arrow.png" /></button>
+                    </div>
+                </div>
+                <div class="gallery-modal-controller">
+                    <div class="gallery-modal-edit control-item">
+                        <button class="gallery-modal-button">
+                            <img src="./assets/img/icons/edit-image.png" />
+                        </button>
+                    </div>
+                    <div class="gallery-modal-save control-item">
+                        <button class="gallery-modal-button">
+                            <img src="./assets/img/icons/download.png" />
+                        </button>
+                    </div>
+                    <div class="gallery-modal-menu control-item">
+                        <button class="gallery-modal-button">
+                            <img src="./assets/img/icons/menu.png" />
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="caption-modal">
+            <!-- Trigger the modal with a button -->
+            <!-- Modal -->
+            <div class="modal fade" id="caption-modal" role="dialog" data-backdrop="static" data-keyboard="false">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <div class="caption-prompter" id="caption-clone">
+                                <div class="caption-item-preview">
+                                    <div class="caption-item-icon">
+                                        <img src="./assets/img/icons/files/file.png" />
+                                    </div>
+                                    <div class="caption-item-description">
+                                        <div class="caption-item-name">MY IMAGE22346.png</div>
+                                        <div class="caption-item-size">200KB</div>
+                                        <div class="caption-item-extension">JPG</div>
+                                    </div>
+                                </div>
+                                <div class="file-err-caption-input-wrapper"></div>
+                                <div class="caption-input-wrapper">
+                                    <div class="input-group">
+                                        <div contenteditable="true" class="form-control caption-textarea" data-max-length="10" rows="1" style="resize: none;height: auto;font-size: 13px !important;" placeholder="Caption..."></div>
+                                        <button class="input-group-addon btn btn-primary caption-send-button">Send</button>
+                                    </div>
+                                    <div class="mention-list-dialog" id="mention-list-dialog">
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="all-caption-files">
+
+                            </div>
+                            <div id="caption-button-wrapper">
+                                <div class="album-caption-footer">
+                                    <div class="form-check" style="display: inline-block;">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" type="checkbox" value="" id="as-album">
+                                            <span style="user-select: none;">Send as album</span>
+                                        </label>
+                                    </div>
+                                    <div contenteditable="true" class="form-control mention-album-input" id="album-caption" rows="3" jid="d3604fa3-f3e1-49e4-8b4e-493c20287d20@conference.dev.hanuman.zone"></div>
+                                    <div id="mention-album" class="mention-list-dialog mention-album"></div>
+                                </div>
+                                <div class="form-check" style="display: inline-block;">
+                                    <label class="form-check-label">
+                                        <input class="form-check-input" type="checkbox" value="" id="hq">
+                                        <span style="user-select: none;" data-lang="label-full_quality">Full Quality</span>
+                                    </label>
+                                </div>
+                                <button class="btn btn-primary btn-caption send-all float-right" id="send-image">SEND</button>
+                                <button class="btn btn-transparent btn-caption float-right" data-dismiss="modal" id="cancel-caption">CANCEL</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="admin-dialog">
+            <!-- Trigger the modal with a button -->
+            <!-- Modal -->
+            <div class="modal fade" id="admin-dialog" role="dialog" tabindex='-1'>
+                <div class="modal-dialog admin-modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 data-lang="label-admin">Admin</h4>
+                            <span style="margin-top: -9px;"><i id="admin-loading" class="fa fa-circle-o-notch"></i></span>
+                            <button class="btn btn-primary admin-button" id="menu-admin-authorize" style="margin-top: -9px;"><i class="fa fa-shield"></i> User Authorization</button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row text-left">
+                                <span class="col-12"><i class="fa fa-user"></i><span> Online today (Session | Account): </span><span id="user-online-today"></span></span>
+                                <span class="col-12"><i class="fa fa-user"></i><span> Registered (Session | Account): </span><span id="user-registered"></span></span>
+                                <span class="col-12"><i class="fa fa-user"></i><span> Registered today (Session | Account) : </span><span id="user-registered-today"></span></span>
+                                <span class="col-12"><i class="fa fa-user"></i><span> Registered this month (Session | Account): </span><span id="user-registered-month"></span></span>
+                            </div>
+                            <hr>
+                            <div id="admin-general">
+                                <div class="">
+                                    <label for="phone-number">Phone number</label>&nbsp;
+                                    <input type="tags" id="phone-numbers" class="form-control" />
+                                    <div class="col-12 row" id="selected-phone-numbers">
+
+                                    </div>
+                                </div>
+                                <div class="input-group">
+                                    <label for="action">Actions</label>
+                                    <div class="row col-12">
+                                        <button class="btn btn-primary admin-button" id="admin-btn-block">Block</button>
+                                        <button class="btn btn-primary admin-button" id="admin-btn-unblock">Unblock</button>
+                                        <button class="btn btn-primary admin-button" id="admin-btn-reset">Reset Password</button>
+                                        <button class="btn btn-primary admin-button" id="admin-btn-otp">Request OTP</button>
+                                        <button class="btn btn-primary admin-button" id="admin-btn-device">Get devices info</button>
+                                    </div>
+                                    <label for="action" style="margin-top: 10px;">Statistic</label>
+                                    <div class="row col-12">
+                                        <button class="btn btn-primary admin-button" id="admin-btn-get-top-user">Top Users</button>
+                                        <button class="btn btn-primary admin-button" id="admin-btn-get-get-message-graph">Message Chart</button>
+                                        <button class="btn btn-primary admin-button" id="admin-btn-get-user-message-graph">User Message Chart</button>
+                                        <button class="btn btn-primary admin-button" id="admin-btn-get-user-top-checkin">Top Checkin Users</button>
+                                        <button class="btn btn-primary admin-button" id="admin-btn-get-user-checkin">User Checkin</button>
+                                        <button class="btn btn-primary admin-button" id="admin-btn-get-users">Get registered users</button>
+                                        <button class="btn btn-primary admin-button" id="admin-btn-get-graph">Users by platform/version</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Admin authorize user -->
+                            <div id="admin-authorize-user" class="container-fluid" style="display:none">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <span><a href="#" class="admin-back-btn"><i class="fa fa-arrow-left"></i> Authorization</a></span>
+                                        <button class="btn btn-primary admin-button float-right" id="admin-btn-authorize-list">Show List <i class="fa fa-list"></i></button>
+                                    </div>
+
+                                </div>
+                                <div class="row mt-3">
+                                    <div class="col-md-4">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <h6>Phone number</h6>
+                                            </div>
+                                        </div>
+                                        <input type="number" id="admin-authorize-phone" class="form-control" placeholder="Phone Number">
+                                    </div>
+                                    <button class="btn btn-primary admin-button" id="admin-btn-check-authorize" style="margin-top: 20px;"><i class="fa fa-search"></i></button>
+                                </div>
+                                <div class="row mt-3" id="admin-authorize-name-ly">
+                                    <div class="col-md-4">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <h6>Name</h6>
+                                            </div>
+                                        </div>
+                                        <input type="text" id="admin-authorize-name" class="form-control" placeholder="Name">
+                                    </div>
+                                </div>
+                                <div class="row mt-3">
+                                    <div class="col-md-12">
+                                        <div class="float-left">
+                                            <button class="btn btn-primary admin-button" id="admin-btn-authorize" style="margin-top: 10px;">Authorize</button>
+                                            <button class="btn btn-primary admin-button" id="admin-btn-de-authorize" style="margin-top: 10px;">De-Authorize</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End admin authorize user -->
+                            <!-- Admin authorize user list -->
+                            <div id="admin-authorize-user-list" class="container-fluid" style="display:none">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <span><a href="#" class="admin-back-btn"><i class="fa fa-arrow-left"></i> Authorization List</a></span>
+                                    </div>
+                                </div>
+                                <div class="row mt-3">
+                                    <div class="col-md-6">
+                                        <input type="text" class="search-input admin-search search-authorize-user" placeholder="Search result">
+                                    </div>
+                                </div>
+
+                                <!-- Tab Filter -->
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div id="content-authorize-user-list"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End admin authorize user list-->
+                            <!-- Admin filter user chat number -->
+                            <div id="admin-user-chat-number" class="container-fluid" style="display:none">
+                                <div class="row">
+                                    <span style="width: 100%;padding-right: 15px;"><a href="#" class="admin-back-btn"><i class="fa fa-arrow-left"></i> User Message Chart</a></span>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <h6>Phone number</h6>
+                                            </div>
+                                        </div>
+                                        <input type="number" id="admin-user-message-phone" class="form-control" placeholder="Phone Number">
+                                    </div>
+                                    <div id="admin-date-picker" class="col-md-8">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <h6>By Date Range</h6>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text icon-calendar"><i class="fa fa-calendar"></i></span>
+                                                    </div>
+                                                    <input type='text' class="datepicker-here admin-user-message-date-range-picker form-control" data-range="true" data-multiple-dates-separator=" - " data-language='en' position="bottom left" data-date-format="dd-mm-yyyy" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="float-right">
+                                            <button class="btn btn-primary admin-button" id="admin-btn-user-message-count" style="margin-top: 10px;">Get User Message Chart</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="chartWrapper">
+                                            <div class="chartAreaWrapper">
+                                                <canvas id="admin-graph-user-message" height="200" width="400"></canvas>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End admin filter user chat number -->
+
+                            <!-- Admin filter user checkin MODE:23 -->
+                            <div id="admin-user-checkin" class="container-fluid" style="display:none">
+                                <div class="row">
+                                    <span style="width: 100%;padding-right: 15px;"><a href="#" class="admin-back-btn"><i class="fa fa-arrow-left"></i> User Checkin</a></span>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <h6>Phone number</h6>
+                                            </div>
+                                        </div>
+                                        <input type="number" id="admin-user-checkin-phone" class="form-control" placeholder="Phone Number">
+                                    </div>
+                                    <div id="admin-date-picker" class="col-md-6">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <h6>By Date Range</h6>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text icon-calendar"><i class="fa fa-calendar"></i></span>
+                                                    </div>
+                                                    <input type='text' class="datepicker-here admin-user-checkin-date-range-picker form-control" data-range="true" data-multiple-dates-separator=" - " data-language='en' position="bottom left" data-date-format="dd-mm-yyyy" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-16">
+                                        <button class="btn btn-primary admin-button" id="admin-btn-user-checkin" style="margin-top: 10px;">Get User Checkin</button>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="chartWrapper">
+                                            <div class="chartAreaWrapper">
+                                                <canvas id="admin-graph-user-checkin" height="200" width="400"></canvas>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End admin filter user checkin MODE:23-->
+
+                            <!-- Admin filter Top User chat -->
+                            <div id="admin-filter-top-user" class="container-fluid" style="display:none">
+                                <div class="row">
+                                    <span style="width: 100%;padding-right: 15px;"><a href="#" class="admin-back-btn"><i class="fa fa-arrow-left"></i> Top Users</a></span>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <h6>Top number :</h6>
+                                            </div>
+                                        </div>
+                                        <input type="number" id="admin-top-user-number" class="form-control" value="10" placeholder="Any number...">
+                                    </div>
+
+                                    <div id="admin-date-picker" class="col-md-8">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <h6>By Date Range :</h6>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text icon-calendar"><i class="fa fa-calendar"></i></span>
+                                                    </div>
+                                                    <input type='text' class="datepicker-here admin-top-user-date-range-picker form-control" data-range="true" data-multiple-dates-separator=" - " data-language='en' position="bottom left" data-date-format="dd-mm-yyyy" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="float-right">
+                                            <button class="btn btn-primary admin-button" id="admin-btn-top-user-chat" style="margin-top: 10px;">Get Top User</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Tab Filter -->
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                            <li class="nav-item">
+                                                <a class="nav-link active" id="top-chat-tab" data-toggle="tab" href="#admintopchat" role="tab" aria-controls="top-chat" aria-selected="true">Chat</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" id="top-group-tab" data-toggle="tab" href="#admintopgroup" role="tab" aria-controls="top-group" aria-selected="false">Group</a>
+                                            </li>
+                                            <li class="nav-search">
+                                                <div class="form-icon admin-search-ul"><input type="text" class="search-input admin-search search-top-user" placeholder="Search result"></div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="tab-content" id="myTabContent">
+                                            <div class="tab-pane fade show active" id="admintopchat" role="tabpanel" aria-labelledby="home-tab">Chat</div>
+                                            <div class="tab-pane fade" id="admintopgroup" role="tabpanel" aria-labelledby="profile-tab">Group</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End Admin filter Top User chat -->
+
+                            <!-- Admin filter Top User checkin MODE:24-->
+                            <div id="admin-filter-user-top-checkin" class="container-fluid" style="display:none">
+                                <div class="row">
+                                    <span style="width: 100%;padding-right: 15px;"><a href="#" class="admin-back-btn"><i class="fa fa-arrow-left"></i> Top Checkin Users</a></span>
+                                </div>
+                                <div class="row mt-3">
+                                    <div class="col-md-2">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <h6>Top number :</h6>
+                                            </div>
+                                        </div>
+                                        <input type="number" id="admin-top-user-checkin-number" class="form-control" value="10" placeholder="Any number...">
+                                    </div>
+
+                                    <div id="admin-date-picker" class="col-md-4">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <h6>By Date Range :</h6>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text icon-calendar"><i class="fa fa-calendar"></i></span>
+                                                    </div>
+                                                    <input type='text' class="datepicker-here admin-top-user-checkin-date-range-picker form-control" data-range="true" data-multiple-dates-separator=" - " data-language='en' position="bottom left" data-date-format="dd-mm-yyyy" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mt-3">
+                                    <div class="col-md-6">
+                                        <button class="btn btn-primary admin-button" id="admin-btn-top-user-checkin" style="margin-top: 10px;">Get Top Checkin Users</button>
+                                    </div>
+                                </div>
+                                <div class="row mt-3">
+                                    <div class="col-md-6">
+                                        <input type="text" class="search-input admin-search search-top-user" placeholder="Search result">
+                                    </div>
+                                </div>
+
+                                <!-- Tab Filter -->
+                                <div class="row mt-3">
+                                    <div class="col-md-6">
+                                        <div id="content-top-user-checkin"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End Admin filter Top User Checkin -->
+
+                            <!-- Admin message count statistic -->
+                            <div id="admin-filter-message-count" class="container-fluid" style="display:none">
+                                <div class="row">
+                                    <span style="width: 100%;padding-right: 15px;"><a href="#" class="admin-back-btn"><i class="fa fa-arrow-left"></i> Message Chart</a></span>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <h6>From Year</h6>
+                                            </div>
+                                        </div>
+                                        <input id="from-year" type="number" class="form-control" min="2018">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <h6>To Year</h6>
+                                            </div>
+                                        </div>
+                                        <input id="to-year" type="number" class="form-control" min="2018">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <button class="btn btn-primary admin-button" id="admin-btn-get-message-count">Get Message Chart</button>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="chartWrapper">
+                                            <div class="chartAreaWrapper">
+                                                <canvas id="admin-graph-message" height="400" width="2200"></canvas>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End Admin message count statistic -->
+
+                            <!-- User filter holder -->
+                            <div id="admin-user-filter" class="container-fluid" style="display:none">
+                                <div class="row">
+                                    <span style="width: 100%;padding-right: 15px;"><a href="#" class="admin-back-btn"><i class="fa fa-arrow-left"></i> Registered Users</a></span>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h6>By Period :</h6>
+                                    </div>
+                                </div>
+                                <div id="admin-period-picker" class="row" style="margin-top:20px;">
+                                    <div class="col-md-4">
+                                        <input type="number" id="admin-input-day-number" class="form-control" value="0" placeholder="Any number...">
+                                    </div>
+                                    <div class="col-md-3">
+                                        <select name="" id="admin-input-period-unit" class="form-control">
+                                            <option value="day">Day</option>
+                                            <option value="week">Week</option>
+                                            <option value="month">Month</option>
+                                            <option value="year">Year</option>
+                                        </select>
+                                    </div>
+                                    <button class="btn btn-primary admin-button" id="admin-btn-get-registered-user">Get registered user</button>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <label class="form-check-label" style="margin-left: 20px; margin-top: 10px">
+                                            <input class="form-check-input" id="admin-inactive" type="checkbox" value="1">Inactive
+                                        </label>
+                                    </div>
+                                </div>
+                                <div id="admin-date-picker">
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h6>By Date Range :</h6>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text icon-calendar"><i class="fa fa-calendar"></i></span>
+                                                </div>
+                                                <input type='text' class="datepicker-here admin-date-range-picker form-control" data-range="true" data-multiple-dates-separator=" - " data-language='en' position="bottom left" data-date-format="dd-mm-yyyy" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End user filter -->
+
+                            <!-- Graph holder -->
+                            <div id="admin-user-graph" class="container-fluid" style="display:none">
+                                <div class="row">
+                                    <span style="width: 100%;padding-right: 15px;"><a href="#" class="admin-back-btn"><i class="fa fa-arrow-left"></i> User by platform and version</a></span>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h6>By Version</h6>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="admin-pie-chart">
+                                            <canvas id="admin-graph-version" width="400" height="400"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h6>By Platform</h6>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="admin-pie-chart">
+                                            <canvas id="admin-graph-platform" width="400" height="400"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End graph holder -->
+
+                            <!-- Graph detail result -->
+                            <div id="admin-user-graph-detail" class="container-fluid" style="display:none">
+                                <div class="row">
+                                    <span style="width: 100%;padding-right: 15px;"><a href="#" class="admin-graph-back-btn"><i class="fa fa-arrow-left"></i> Details</a></span>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h6 id="admin-user-graph-detail_label" style="display: inline-block"></h6>
+                                        <div class="form-icon">
+                                            <input type="text" id="admin-search" class="search-input admin-search
+                  " placeholder="Search result">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h6 id="admin-user-graph-detail_items"></h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End detail result -->
+
+                        </div>
+                        <div class="modal-footer">
+                            <div id="admin-body" style="width:100%; margin: 0"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="slider-container">
+
+            <!-- MODAL IMAGES -->
+            <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="pswp__bg"></div>
+                <div class="pswp__scroll-wrap">
+                    <div class="pswp__container">
+                        <div class="pswp__item"></div>
+                        <div class="pswp__item"></div>
+                        <div class="pswp__item"></div>
+                    </div>
+
+                    <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+                    <div class="pswp__ui pswp__ui--hidden">
+                        <div class="pswp__top-bar">
+                            <div class="pswp__counter"></div>
+                            <button class="pswp__button pswp__button--close" title="Close (Esc)">
+                                <i class="fa fa-times pswp__button--close"></i>
+                            </button>
+                            <!-- <button class="pswp__button pswp__button--share" title="Share/Download"></button>
+                  <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button> -->
+                            <div class="pswp__preloader">
+                                <div class="pswp__preloader__icn">
+                                    <div class="pswp__preloader__cut">
+                                        <div class="pswp__preloader__donut"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                            <div class="pswp__share-tooltip"></div>
+                        </div>
+                        <button class="pswp__button previous pswp__button--arrow--left" title="Previous (arrow left)">
+                            <i class="fa fa-angle-left resize pswp__button--arrow--left"></i>
+                        </button>
+                        <button class="pswp__button next pswp__button--arrow--right" title="Next (arrow right)">
+                            <i class="fa fa-angle-right resize pswp__button--arrow--right"></i>
+                        </button>
+                        <div class="pswp__caption">
+                            <div class="pswp__caption__center"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- END MODAL IMAGES -->
+        </div>
+        <div class="edit-number-dialog">
+            <!-- Trigger the modal with a button -->
+            <!-- Modal -->
+            <div class="modal fade" id="edit-number-dialog" role="dialog" tabindex='-1'>
+                <div class="modal-dialog edit-number-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <h5 for="new_number" data-lang="label-change_number">Change phone number</h5>
+                                <p style="margin-top:20px">
+                                    <span data-lang="message-new_number1">All of your </span>
+                                    <strong data-lang="message-new_number2">Contacts, Chats, GroupChats </strong>
+                                    <span data-lang="message-new_number3">will be transfered to your new number.</span>
+                                </p>
+                                <div class="form-group">
+                                    <label for="current_password">New phone number</label>
+                                    <input type="text" class="form-control input-number" autofocus id="new_number" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="current_password">Current Password</label>
+                                    <input type="password" class="form-control" id="current_password_change_number" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer modal-footer-end-color">
+                            <button class="btn btn-primary float-right" id="save-number" enable-enter="true"><i class="fa fa-save"></i>&nbsp;&nbsp;<span data-lang="label-save">Change</span></button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+        <div class="otp-confirm-dialog">
+            <!-- Trigger the modal with a button -->
+            <!-- Modal -->
+            <div class="modal fade" id="otp-confirm-dialog" role="dialog" tabindex='-1'>
+                <div class="modal-dialog otp-confirm-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <h5 class="form-signin-heading text-muted" data-lang="label-otp">OTP Verification</h5>
+                                <p class="form-signin-heading" data-lang="message-otp_confirm">Please enter 6 digits number which was sent to your mobile SMS.</p>
+                                <input type="text" class="form-control input-number" required="" maxlength="6" autofocus id="new_otp">
+                            </div>
+                            <span id="otp-confirm-loading" style="display: none;"><i class="fa fa-circle-o-notch fa-spin"></i>&nbsp;&nbsp;Processing...</span>
+                            <button class="btn btn-primary float-right" id="confirm-otp" enable-enter="true"><i class="fa fa-check"></i>&nbsp;&nbsp;<span data-lang="label-confirm">confirm</span></button>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+        <div class="change-nickname-dialog">
+            <!-- Trigger the modal with a button -->
+            <!-- Modal -->
+            <div class="modal fade" id="change-nickname-dialog" role="dialog" tabindex='-1'>
+                <div class="modal-dialog change-nickname-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <h5 for="new_nickname" lang="label-new_nickname">Set Nickname</h5>
+                                <input type="text" class="form-control" autofocus id="new_nickname" />
+                            </div>
+                            <button class="btn btn-primary float-right" id="save-nickname" enable-enter="true"><i class="fa fa-save"></i>&nbsp;&nbsp;<span data-lang="label-save">Save</span></button>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+        <div class="static-otp-dialog">
+            <!-- Trigger the modal with a button -->
+            <!-- Modal -->
+            <div class="modal fade" id="static-otp-dialog" role="dialog" tabindex='-1'>
+                <div class="modal-dialog static-otp-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <h5 data-lang="label-static_otp">Static OTP</h5>
+                                <div class="text-center"><span class="form-signin-heading" data-lang="label-current_static_otp">Current Static OTP</span> : <span id="current_static_otp"></span></div>
+                                <p style="margin-top: 20px">
+                                    <strong data-lang="message-static_otp1">(OTP must be 6 digits number ONLY)</strong>
+                                    <br><span data-lang="message-static_otp2">The static OTP will be used for your next login and there will be</span>
+                                    <strong data-lang="message-static_otp3">no OTP sending via SMS</strong>
+                                </p>
+                                <input type="text" class="form-control input-number" autofocus id="static_otp" max="6" placeholder="Static OTP" />
+                            </div>
+
+                        </div>
+                        <div class="modal-footer modal-footer-color">
+                            <button class="btn btn-primary float-right" id="save-otp" enable-enter="true"><span data-lang="label-set_otp">Save</span></button>
+                            <button style="margin-right:10px;" class="btn btn-warning float-right" id="clear-otp"><span data-lang="label-clear_otp">Clear</span></button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+        <div class="storage-dialog">
+            <!-- Trigger the modal with a button -->
+            <!-- Modal -->
+            <div class="modal fade" id="storage-dialog" role="dialog" tabindex='-1'>
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 data-lang="label-local_storage">Storage</h4>
+                            <span style="margin-top: -9px;"><i id="admin-loading" class="fa fa-circle-o-notch"></i></span>
+                        </div>
+                        <div class="modal-body" style="padding-top:0; height: 75vh; overflow-y: auto">
+                            <div class="row">
+                                <div class="col-12 mg-top-10">
+                                    <div class="card pd-bt-10">
+                                        <canvas id="storage-graph" width="400" height="400"></canvas>
+                                    </div>
+                                </div>
+                                <div class="col-12 mg-top-10">
+                                    <div class="card">
+                                        <div class="storage-label">
+                                            <span id="photo-storage-amount"></span>
+                                            <span>Photos</span>
+                                        </div>
+                                        <div class="storage-detail">
+                                            <span id="photo-storage-size"></span>
+                                            <button class="btn btn-link btn-sm float-right btn-clear-storage" data-type="image">CLEAR</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 mg-top-10">
+                                    <div class="card">
+                                        <div class="storage-label">
+                                            <span id="voice-storage-amount"></span>
+                                            <span>Voices</span>
+                                        </div>
+                                        <div class="storage-detail">
+                                            <span id="voice-storage-size"></span>
+                                            <button class="btn btn-link btn-sm float-right btn-clear-storage" data-type="voice">CLEAR</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 mg-top-10">
+                                    <div class="card">
+                                        <div class="storage-label">
+                                            <span id="gif-storage-amount"></span>
+                                            <span>Gifs</span>
+                                        </div>
+                                        <div class="storage-detail">
+                                            <span id="gif-storage-size"></span>
+                                            <button class="btn btn-link btn-sm float-right btn-clear-storage" data-type="gif">CLEAR</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 mg-top-10">
+                                    <div class="card">
+                                        <div class="storage-label">
+                                            <span id="other-storage-amount"></span>
+                                            <span>Others</span>
+                                        </div>
+                                        <div class="storage-detail">
+                                            <span id="other-storage-size"></span>
+                                            <button class="btn btn-link btn-sm float-right btn-clear-storage" data-type="other">CLEAR</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="qr-dialog">
+            <!-- Trigger the modal with a button -->
+            <!-- Modal -->
+            <div class="modal fade" id="qr-dialog" role="dialog" tabindex='-1'>
+                <div class="modal-dialog modal-dialog-profile">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <label data-lang="label-qr">My QR Code</label>
+                            <div class="qr-profile-container">
+                                <div id="qr"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+        <div class="new-conference-dialog">
+            <!-- Trigger the modal with a button -->
+            <!-- Modal -->
+            <div class="modal fade" id="new-conference-dialog" role="dialog" tabindex='-1'>
+                <div class="modal-dialog modal-dialog-profile">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <div class="form-icon">
+                                    <i class="fa fa-search">
+                                    </i>
+                                    <input type="text" id="search-contact" placeholder="Search contact">
+                                </div>
+                                <label for="contacts" data-lang="label-invite_to">Invite to</label>
+                                <ul class="contact-list list-unstyled">
+
+                                </ul>
+                            </div>
+                            <div class="text-right ">
+                                <button class="btn btn-primary" id="confirm-add-conference" data-lang="label-invite" enable-enter="true">Invite And Join</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="confirm-mute-dialog">
+            <!-- Trigger the modal with a button -->
+            <!-- Modal -->
+            <div class="modal" id="confirm-mute-dialog" role="dialog" tabindex='-1'>
+                <div class="modal-dialog mute-confirm-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content" style="width: 70%;">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Mute Notifications</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="choose-delete-form">
+                                <div class="form-group">
+                                    <div class="form-check mute-check-container">
+                                        <input class="form-check-input" type="radio" name="mute-notification-option" id="mute1" checked value="1">
+                                        <label class="form-check-label" for="mute1">
+                                            For 1 hour
+                                        </label>
+                                    </div>
+                                    <div class="form-check mute-check-container">
+                                        <input class="form-check-input" type="radio" name="mute-notification-option" id="mute4" value="4">
+                                        <label class="form-check-label" for="mute4">
+                                            For 4 hours
+                                        </label>
+                                    </div>
+                                    <div class="form-check mute-check-container">
+                                        <input class="form-check-input" type="radio" name="mute-notification-option" id="mute8" value="8">
+                                        <label class="form-check-label" for="mute8">
+                                            For 8 hours
+                                        </label>
+                                    </div>
+                                    <div class="form-check mute-check-container">
+                                        <input class="form-check-input" type="radio" name="mute-notification-option" id="mute24" value="24">
+                                        <label class="form-check-label" for="mute24">
+                                            For 24 hours
+                                        </label>
+                                    </div>
+                                    <div class="form-check mute-check-container">
+                                        <input class="form-check-input" type="radio" name="mute-notification-option" id="mute0" value="0">
+                                        <label class="form-check-label" for="mute0">
+                                            Until I turn it back on
+                                        </label>
+                                    </div>
+                                </div>
+                            </form>
+                            <div class="float-right">
+                                <button data-dismiss="modal" class="btn btn-default">Cancel</button>
+                                <button id="confirm-mute" class="btn btn-primary" enable-enter="true">Yes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="image-editor-dialog">
+            <!-- Trigger the modal with a button -->
+            <!-- Modal -->
+            <div class="modal" id="image-editor-dialog" role="dialog" tabindex='-1'>
+                <div class="modal-dialog image-editor-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <div class="image-editor-container">
+                                <div id="image-editor"></div>
+                                <div class="image-editor-button">
+                                    <button data-dismiss="modal" class="btn btn-default">Cancel</button>
+                                    <button id="confirm-edit-image" class="btn btn-primary" enable-enter="false">Done</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="generate-key-dialog">
+            <!-- Trigger the modal with a button -->
+            <!-- Modal -->
+            <div class="modal fade" id="generate-key-dialog" data-backdrop="static" data-keyboard="false" role="dialog" tabindex='-1'>
+                <div class="modal-dialog generate-key-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <div class="box_bounce_center">
+                                <div class="spin_bounce">
+                                    <div class="sk-bounce-dot"></div>
+                                    <div class="sk-bounce-dot"></div>
+                                </div>
+                            </div>
+
+                            <br />
+                            <h5 class="text-center">Please wait for generate secure key.</h5>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+        <div class="rquest-key-dialog">
+            <!-- Trigger the modal with a button -->
+            <!-- Modal -->
+            <div class="modal fade" id="rquest-key-dialog" data-backdrop="static" data-keyboard="false" role="dialog" tabindex='-1'>
+                <div class="modal-dialog modal-sm rquest-key-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <h5 class="modal-title text-center">Waiting approval from existing session.</h5>
+                            <!-- <div class="box_bounce_center">
+              <div class="spin_bounce">
+                <div class="sk-bounce-dot"></div>
+                <div class="sk-bounce-dot"></div>
+              </div>
+            </div> -->
+
+                        </div>
+                        <div class="modal-footer modal-footer-color">
+                            <div class="container">
+                                <div class="row">
+                                    <button id="confirm-cancel-request-key" type="button" class="btn btn-primary col-12">Cancel</button>
+                                    <button id="confirm-takeover-session" type="button" class="btn btn-primary btn-red col-12 mt-2">Takeover</button>
+                                    <p id="resend-request-key" class="text-center resend-button col-12 mt-2">Resend request key</p>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="handle-share-key-dialog">
+            <!-- Trigger the modal with a button -->
+            <!-- Modal -->
+            <div class="modal fade" id="handle-share-key-dialog" data-backdrop="static" data-keyboard="false" role="dialog" tabindex='-1'>
+                <div class="modal-dialog handle-share-key-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="box-space-h60">
+                                <div class="circle-box-icon">
+                                    <img src="./assets/img/icons/device-icon.png" width="13px">
+                                </div>
+                            </div>
+                            <h5 class="modal-title text-center">Your account has been login from another device, Do you want to allow session to login?</h5>
+                            <br />
+                        </div>
+                        <div class="modal-footer modal-footer-color">
+                            <button id="confirm-approve-share-key" type="button" class="btn btn-allow">Approve</button>
+                            <button id="confirm-deny-share-key" type="button" class="btn btn-red">Reject</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="delete-account-dialog">
+            <!-- Trigger the modal with a button -->
+            <!-- Modal -->
+            <div class="modal fade" id="delete-account-dialog" role="dialog" tabindex='-1'>
+                <div class="modal-dialog delete-account-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Delete Account</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Are you sure to delete your account ? your account & data will be deleted permanently.</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" id="confirm-delete-account">Yes</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="take-over-session-dialog">
+            <!-- Trigger the modal with a button -->
+            <!-- Modal -->
+            <div class="modal fade" id="take-over-session-dialog" data-backdrop="static" role="dialog" tabindex='-1'>
+                <div class="modal-dialog take-over-session-dialog" style="max-width: 400px;">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Are you sure you want to takeover session?</h5>
+                        </div>
+                        <div class="modal-body">
+                            <p>Warning: Your message histories will be lose.</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            <button type="button" class="btn btn-primary" id="confirm-take-over">Yes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="store-update-confirm-dialog">
+            <!-- Trigger the modal with a button -->
+            <!-- Modal -->
+            <div class="modal fade" id="store-update-confirm-dialog" role="dialog" tabindex='-1' style="z-index:99998">
+                <div class="modal-dialog store-update-confirm-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class='col-12 modal-title text-center'>Update Available</h5>
+                        </div>
+                        <div class="modal-body text-center">
+                            <div class="logo">
+                            </div>
+                            <div>
+                                <span class="version"></span>
+                            </div>
+                            <div class="releaseNotes"></div>
+                            <button class="btn btn-block btn-primary" id="open-store">Open Store</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- UI fragments for clone  -->
+    <div id="cloneable-bubbles" hidden="true">
+        <div class="cloneable-bubbles">
+            <div id="image-bubble-clone">
+                <div class="message_wrapper bubble">
+                    <div class="message_avatar">
+                        <img src="" />
+                    </div>
+                    <div class="message droplet image-message">
+                        <div class="message__image message__text">
+                            <div class="message__image__content message__text__content">
+                                <span class="msg">
+                                    <div class="image-container">
+                                        <div class="image-holder">
+                                            <div class="image-loading">
+                                                <i class="fa fa-circle-o-notch fa-spin"></i>
+                                            </div>
+                                        </div>
+                                        <div class="progress-container" style="display: none;">
+                                            <div class="progress-cancel">
+                                                <i class="fa fa-times"></i>
+                                            </div>
+                                            <i class="media-progress-bar fa-spin"></i>
+                                        </div>
+                                    </div>
+                                    <div class="image-caption caption"></div>
+                                </span>
+                                <div class="message__time">09:01 AM</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="gif-bubble-clone">
+                <div class="message_wrapper bubble">
+                    <div class="message_avatar">
+                        <img src="" />
+                    </div>
+                    <div class="message droplet gif-message">
+                        <div class="message__image message__text">
+                            <div class="message__image__content message__text__content">
+                                <span class="msg">
+                                    <div class="image-container">
+                                        <div class="gif-holder">
+                                            <div class="image-loading">
+                                                <i class="fa fa-circle-o-notch fa-spin"></i>
+                                            </div>
+                                        </div>
+                                        <div class="progress-container" style="display: none;">
+                                            <div class="progress-cancel">
+                                                <i class="fa fa-times"></i>
+                                            </div>
+                                            <i class="media-progress-bar fa-spin"></i>
+                                        </div>
+                                    </div>
+                                    <div class="gif-caption caption"></div>
+                                </span>
+                                <div class="message__time">09:01 AM</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="file-bubble-clone">
+                <div class="message_wrapper bubble">
+                    <div class="message_avatar">
+                        <img src="" />
+                    </div>
+                    <div class="message droplet file-message">
+                        <div class="message__text">
+                            <div class="message__text__content">
+                                <span class="msg">
+                                    <div class="file">
+                                        <div class="file-icon" loaded="false">
+                                            <span>
+                                                <img src="./assets/img/icons/files/download.png" />
+                                            </span>
+                                        </div>
+                                        <div class="file-detail">
+                                            <p class="file-name"></p>
+                                            <span class="float-right file-details">
+                                                <span class="file-size noselect"></span>&nbsp;&nbsp;
+                                                <span class="file-type noselect"></span>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </span>
+                                <div class="message__time">09:01 AM</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="conference-bubble-clone">
+                <div class="message_wrapper bubble">
+                    <div class="message_avatar">
+                        <img src="" />
+                    </div>
+                    <div class="message droplet conference-message">
+                        <div class="message__text">
+                            <div class="message__text__content">
+                                <span class="msg">
+                                    <div class="conference">
+                                        <div class="conference-icon" loaded="false">
+                                            <span>
+                                                <img src="./assets/img/icons/video-conference.png" />
+                                            </span>
+                                        </div>
+                                        <div class="conference-name noselect">
+                                            Join Conference
+                                        </div>
+                                    </div>
+                                </span>
+                                <div class="message__time">09:01 AM</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="call-bubble-clone">
+                <div class="message_wrapper bubble">
+                    <div class="message_avatar">
+                        <img src="" />
+                    </div>
+                    <div class="message droplet call-message">
+                        <div class="message__text">
+                            <div class="message__text__content">
+                                <span class="msg">
+                                    <div class="call">
+                                        <div class="call-icon" loaded="false">
+                                            <span>
+                                                <img src="./assets/img/icons/call.png" />
+                                            </span>
+                                        </div>
+                                        <div class="call-name noselect">
+                                            Audio Call
+                                        </div>
+                                    </div>
+                                </span>
+                                <div class="message__time">09:01 AM</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="video-bubble-clone">
+                <div class="message_wrapper bubble">
+                    <div class="message_avatar">
+                        <img src="" />
+                    </div>
+                    <div class="message droplet video-message">
+                        <div class="message__text">
+                            <div class="message__text__content">
+                                <span class="msg">
+                                    <div class="image-container">
+                                        <div class="video-holder">
+                                            <button class="play-button" tabindex="-1">
+                                                <i class="fa fa-play"></i>
+                                            </button>
+                                            <button class="play-button-outside" style="display: none;">
+                                                <i class="fa fa-play"></i>
+                                            </button>
+                                            <button class="loading-button">
+                                                <i class="fa fa-circle-o-notch fa-spin"></i>
+                                            </button>
+                                        </div>
+                                        <div class="progress-container" style="display: none;">
+                                            <div class="progress-cancel">
+                                                <i class="fa fa-times"></i>
+                                            </div>
+                                            <i class="media-progress-bar fa-spin"></i>
+                                        </div>
+                                    </div>
+                                    <div class="video-caption caption"></div>
+                                </span>
+                                <div class="message__time">09:01 AM</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="sticker-bubble-clone">
+                <div class="message_wrapper bubble">
+                    <div class="message_avatar">
+                        <img src="" />
+                    </div>
+                    <div class="message droplet sticker-msg">
+                        <div class="message__text">
+                            <div class="message__text__content">
+                                <span class="msg">
+
+                                </span>
+                                <div class="message__time">09:01 AM</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="voice-bubble-clone">
+                <div class="message_wrapper bubble">
+                    <div class="message_avatar">
+                        <img src="" />
+                    </div>
+                    <div class="message droplet voice-message">
+                        <div class="message__text">
+                            <div class="message__text__content">
+                                <span class="msg">
+                                    <div id="player" class="jp-audio" role="application" aria-label="media player">
+                                        <div class="jp-type-single">
+                                            <div class="jp-gui jp-interface">
+                                                <div class="jp-controls-holder">
+                                                    <div class="jp-controls">
+
+                                                        <button class="jp-play" role="button" tabindex="-1">
+                                                            <i class="fa fa-circle-o-notch fa-spin"></i>
+                                                        </button>
+                                                        <div class="progress-container" style="display: none;">
+                                                            <div class="progress-cancel">
+                                                                <i class="fa fa-times"></i>
+                                                            </div>
+                                                            <i class="media-progress-bar fa-spin"></i>
+                                                        </div>
+                                                    </div>
+                                                    <div class="jp-progress">
+                                                        <svg preserveAspectRatio="none" class="waveform" height="50px" width="205px" id="wave">
+                                                            <linearGradient id="Gradient" x1="0" x2="0" y1="0" y2="1">
+                                                                <stop offset="0%" stop-color="white" />
+                                                                <stop offset="90%" stop-color="white" stop-opacity="0.75" />
+                                                                <stop offset="100%" stop-color="white" stop-opacity="0" />
+                                                            </linearGradient>
+                                                            <mask id="Mask">
+                                                                <path fill="url(#Gradient)" />
+                                                            </mask>
+                                                            <rect class="v-progress" mask="url(#Mask)" x="0" y="0" height=50 fill="#616161" />
+                                                            <rect class="v-remaining" mask="url(#Mask)" x="0" y="0" height=50 width="205" fill="#9e9e9e" />
+                                                        </svg>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="jp-times">
+                                            <div class="jp-current-time" role="timer" aria-label="time">0:00</div>
+                                            <div class="jp-seperator">&nbsp;/&nbsp;</div>
+                                            <div class="jp-duration" role="timer" aria-label="duration">0:00</div>
+                                        </div>
+                                    </div>
+                                </span>
+                                <div class="message__time">09:01 AM</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="add-member-bubble-clone">
+                <div class="text-center bubble">
+                    <div class="invite-message">
+                        <span class="msg"></span>
+                        <div class="message__time"></div>
+                    </div>
+                </div>
+            </div>
+            <div id="leave-bubble-clone">
+                <div class="text-center bubble">
+                    <div class="leave-message">
+                        <span class="msg"></span>
+                        <div class="message__time"></div>
+                    </div>
+                </div>
+            </div>
+            <div id="kick-member-bubble-clone">
+                <div class="text-center bubble">
+                    <div class="kick-message">
+                        <span class="msg"></span>
+                        <div class="message__time"></div>
+                    </div>
+                </div>
+            </div>
+            <div id="groupphoto-bubble-clone">
+                <div class="text-center bubble">
+                    <div class="photo-change-message">
+                        <span class="msg"></span>
+                        <div class="message__time"></div>
+                    </div>
+                </div>
+            </div>
+            <div id="create-group-bubble-clone">
+                <div class="text-center bubble">
+                    <div class="create-group-message">
+                        <span class="msg"></span>
+                        <div class="message__time"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="subject-bubble-clone">
+                <div class="text-center bubble">
+                    <div class="subject-message">
+                        <span class="msg"></span>
+                        <div class="message__time"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="pin-message-bubble-clone">
+                <div class="text-center bubble">
+                    <div class="pin-message-action">
+                        <span class="msg"></span>
+                        <div class="message__time"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="tracking-forward-message-bubble-clone">
+                <div class="text-center bubble">
+                    <div class="tracking-forward-message-action">
+                        <span class="msg"></span>
+                        <div class="message__time"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="text-bubble-clone">
+                <div class="message_wrapper bubble">
+                    <div class="message_avatar">
+                        <img src="" />
+                    </div>
+                    <div class="message droplet text-message">
+                        <div class="message__text">
+                            <div class="message__text__content">
+                                <span class="msg">
+
+                                </span>
+                                <div class="message__time">09:01 AM</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="location-bubble-clone">
+                <div class="message_wrapper bubble">
+                    <div class="message_avatar">
+                        <img src="" />
+                    </div>
+                    <div class="message droplet location-message">
+                        <div class="message__image">
+                            <div class="message__text__content">
+                                <span class="msg">
+                                    <div class="map-preview">
+                                        <a class="map-url" target="_blank">
+                                            <img class="map">
+                                        </a>
+                                    </div>
+                                </span>
+                                <div class="message__time">09:01 AM</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="live-location-bubble-clone">
+                <div class="message_wrapper bubble">
+                    <div class="message_avatar">
+                        <img src="" />
+                    </div>
+                    <div class="message droplet live-location-message">
+                        <div class="message__image">
+                            <div class="message__text__content">
+                                <span class="msg">
+                                    <div class="map-preview">
+                                        <img class="map">
+                                    </div>
+                                    <div>
+                                        <span class="live-location-label">Live Location</span>
+                                        <span id="countdown" class="countdown timer-circle timer-circle-hide">20</span>
+                                    </div>
+                                </span>
+                                <div class="message__time">09:01 AM</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="album-bubble-clone">
+                <div class="message_wrapper bubble">
+                    <div class="message_avatar">
+                        <img src="" alt="" />
+                    </div>
+                    <div class="message droplet album-message">
+                        <div class="message__album message__text">
+                            <div class="message__album__content message__text__content">
+                                <span class="msg">
+                                    <div class="gallery-grid">
+                                    </div>
+                                    <div class="album-caption caption"></div>
+                                </span>
+                                <div class="message__time"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="reply-bubble-clone">
+                <div class="reply_message_wrapper reply-bubble">
+                    <div class="reply-message">
+                        <div class="reply-vertical-bar"></div>
+                        <div class="reply_message_box">
+                            <div class="reply-sender-name">Piseth</div>
+                            <div class="message_reply_text_content">
+                                <span class="reply_msg">
+
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div id="share-contact-bubble-clone">
+            <div class="message_wrapper bubble">
+                <div class="message_avatar">
+                    <img src="" />
+                </div>
+                <div class="message droplet share-contact-message">
+                    <div class="message__image">
+                        <div class="message__text__content">
+                            <span class="msg">
+                                <div class="share-contact-info-container">
+                                    <div class="share-contact-img">C</div>
+                                    <div class="share-contact-info">
+                                        <span class="share-contact-name"></span><br>
+                                        <span class="share-contact-number"></span>
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </span>
+                            <div class="message__time">09:01 AM</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="contact-item-clone" hidden="true">
+        <li id="def-jid" class="list-group-item contact-item">
+            <div class="contact-img">
+
+            </div>
+            <div class="contact-info">
+                <span class="contact-name"></span>
+                <br>
+                <span class="contact-number"></span>
+                <div class="contact-label"></div>
+            </div>
+            <div class="clearfix"></div>
+        </li>
+    </div>
+    <div id="chat-entry-item-clone" hidden="true">
+        <li id="def-jid" class="list-group-item contact-item chat-entry-item">
+            <div class="contact-img">
+
+            </div>
+            <div class="contact-info">
+                <span class="contact-name">'+name+'</span><span class="last-chat-timestamp"></span>
+                <br>
+                <span class="contact-last-chat"></span>
+                <span class="message-counter float-right"></span>
+            </div>
+            <div class="clearfix"></div>
+        </li>
+    </div>
+    <div id="retry-connection">
+        <div class="text">
+            Reconnect in
+            <span class="sec"></span>s...
+            <a href="javascript:void(0)" id="btn-reconnect">Try now</a>
+        </div>
+        <div class="icon">
+            <div class="wifi-symbol">
+                <div class="wifi-circle first"></div>
+                <div class="wifi-circle second"></div>
+                <div class="wifi-circle third"></div>
+                <div class="wifi-circle fourth">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="universal-loader">
+        <div class="loader">
+            <div class="spinner"></div>
+        </div>
+    </div>
+    <div id="loading-screen">
+        <div class="image">
+            <img src="./assets/img/logo128.png">
+        </div>
+        <div class="error-msg">
+            <span data-lang="message-connecting"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+        </div>
+    </div>
+
+    <!-- End Main Screen -->
+
+    <!-- Insert this line above script imports  -->
+    <script>
+        if (typeof module === 'object') {
+            window.module = module;
+            module = undefined;
+        }
+    </script>
+    <!-- jQuery CDN -->
+    <script src="./assets/vendor/jquery/jquery-3-6-0.min.js"></script>
+    <script src='./assets/vendor/jquery/jquery-ui-1-13-2.min.js'></script>
+    <!-- Bootstrap Js CDN -->
+    <script src="./assets/vendor/bootstrap/js/popper.min.js"></script>
+    <script src="./assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <!-- Insert this line after script imports -->
+    <script>
+        if (window.module) module = window.module;
+    </script>
+
+    <!-- Include Chat Body -->
+    <!-- <script>
+    const {v1:uuidv1} = require('uuid');
+    const os = require('os');
+    const language = localStorage["lang"] != null ? localStorage["lang"] : "en"
+    var lang = require("langen");
+    console.log("ll",lang);
+    jQuery.expr[":"].containsIgnoreCase = $.expr.createPseudo(function (arg) {
+      return function (elem) {
+        return $(elem).text().toUpperCase().indexOf(arg.toUpperCase()) >= 0;
+      };
+    });
+
+    if(os.platform() == 'win32' || os.platform() == 'linux'){
+      $('#window-controls').attr('style', 'display:grid');
+    }
+    require('./renderer.js')
+
+  </script> -->
+    <!-- <script src='./assets/vendor/strophe.js'></script> -->
+    <!-- <script src='./assets/vendor/strophe.1.4.1.js'></script> -->
+    <!-- <script src='./assets/vendor/strophe.register.js'></script> -->
+    <!-- <script src='./assets/vendor/strophe.vcard.js'></script> -->
+    <!-- <script src='./assets/vendor/strophe.stream-management.js'></script> -->
+    <!-- <script src="./assets/vendor/strophe.message-carbons.js"></script> -->
+    <!-- <script src="./assets/js/strophe.reset-password.js"></script> -->
+
+    <script src='./assets/vendor/vkbeautify.0.99.00.beta.js'></script>
+    <script src='./assets/vendor/exif/exif.min.js'></script>
+    <script src='./assets/vendor/croppie/croppie.min.js'></script>
+    <script src='./assets/vendor/stickerpipe/stickerpipe.min.js'></script>
+    <script src='./basic.js'></script>
+    <!-- <script src='./sticker.js'></script> -->
+    <!-- <script src='./contextmenu.js'></script> -->
+    <!-- <script src="./renderer-process/wallpaper.js"></script> -->
+    <script src="./assets/vendor/stickerpipe/lodash.min.js"></script>
+    <script src='./assets/vendor/moment-with-locale.js'></script>
+    <!-- <script src='./assets/vendor/stickerpipe/stickerpipe.min.js'></script> -->
+    <script src="./assets/vendor/sha1.js"></script>
+    <script src="./assets/vendor/image-compressor/image-compressor.min.js"></script>
+    <script src="./assets/vendor/voice-recorder/recorder.js"></script>
+    <script src="./assets/vendor/videojs/video.js"></script>
+    <script src="./assets/vendor/jquery/is-in-viewport.js"></script>
+    <!-- Photoswipe -->
+    <script src="./assets/vendor/photoswipe/photoswipe.min.js"></script>
+    <script src="./assets/vendor/photoswipe/photoswipe-ui-default.min.js"></script>
+    <!-- Linkify -->
+    <!-- <script src="./assets/vendor/linkify/linkify.min.js"></script>
+  <script src="./assets/vendor/linkify/linkify-string.min.js"></script>
+  <script src="./assets/vendor/linkify/linkify-jquery.min.js"></script> -->
+    <script src="./assets/vendor/circle-progress-bar.min.js"></script>
+    <!-- <script src="./keyboard.js"></script> -->
+    <!-- <script src="./assets/js/gallery.js"></script> -->
+    <script src="./assets/vendor/gijgo/gijgo.min.js"></script>
+    <script src="./assets/vendor/air-datepicker/air-datepicker.js"></script>
+    <script src="./assets/vendor/air-datepicker/air-datepicker-en.js"></script>
+    <script src="./assets/vendor/chartjs/Chart.min.js"></script>
+    <script src="./assets/vendor/chartjs/label.js"></script>
+    <script src="./assets/vendor/isotope/isotope.min.js"></script>
+    <script src="./assets/vendor/qrcode/qrcode.js"></script>
+    <script src="./assets/vendor/lottie/lottie-player.js"></script>
+    <!-- <script src="./assets/vendor/jitsi/externalapi.js"></script> -->
+    <script src="./assets/vendor/jitsi/external_api.js"></script>
+    <script src="./assets/js/image-editor-theme.js"></script>
+    <!-- <script src="./assets/vendor/jitsi/lib-jitsi-meet.min.js"></script> -->
+    <!-- <script src='https://meeting.gdri.gov.kh/external_api.js'></script> -->
+    <!-- <script src="./assets/vendor/google-map/map.js"></script> -->
+    <script>
+        $(document).ready(function() {
+            $('body').append('<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg" async defer><\/script>')
+        })
+    </script>
+</body>
+
+</html>
